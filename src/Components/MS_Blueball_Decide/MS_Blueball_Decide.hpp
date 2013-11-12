@@ -34,19 +34,19 @@ using namespace cv;
  */
 struct Props: public Base::Props
 {
-	/*!
-	 * \copydoc Base::Props::load
-	 */
-	void load(const ptree & pt)
-	{
-	}
+    /*!
+     * \copydoc Base::Props::load
+     */
+    void load(const ptree & pt)
+    {
+    }
 
-	/*!
-	 * \copydoc Base::Props::save
-	 */
-	void save(ptree & pt)
-	{
-	}
+    /*!
+     * \copydoc Base::Props::save
+     */
+    void save(ptree & pt)
+    {
+    }
 };
 
 /*!
@@ -56,114 +56,114 @@ struct Props: public Base::Props
 class MS_Blueball_Decide: public Base::Component
 {
 public:
-	/*!
-	 * Constructor.
-	 */
-	MS_Blueball_Decide(const std::string & name = "");
+    /*!
+     * Constructor.
+     */
+    MS_Blueball_Decide(const std::string & name = "");
 
-	/*!
-	 * Destructor
-	 */
-	virtual ~MS_Blueball_Decide();
+    /*!
+     * Destructor
+     */
+    virtual ~MS_Blueball_Decide();
 
-	/*!
-	 * Return window properties
-	 */
-	Base::Props * getProperties()
-	{
-		return &props;
-	}
+    /*!
+     * Return window properties
+     */
+    Base::Props * getProperties()
+    {
+        return &props;
+    }
 
     void prepareInterface();
 
 protected:
 
-	/*!
-	 * Connects source to given device.
-	 */
-	bool onInit();
+    /*!
+     * Connects source to given device.
+     */
+    bool onInit();
 
-	/*!
-	 * Disconnect source from device, closes streams, etc.
-	 */
-	bool onFinish();
+    /*!
+     * Disconnect source from device, closes streams, etc.
+     */
+    bool onFinish();
 
-	/*!
-	 * Retrieves data from device.
-	 */
-	bool onStep();
+    /*!
+     * Retrieves data from device.
+     */
+    bool onStep();
 
-	/*!
-	 * Start component
-	 */
-	bool onStart();
+    /*!
+     * Start component
+     */
+    bool onStart();
 
-	/*!
-	 * Stop component
-	 */
-	bool onStop();
+    /*!
+     * Stop component
+     */
+    bool onStop();
 
 
-	/*!
-	 * Event handler function.
-	 */
-	void onNewImage();
+    /*!
+     * Event handler function.
+     */
+    void onNewImage();
 
-	/// New image is waiting
-	Base::EventHandler <MS_Blueball_Decide> h_onNewImage;
+    /// New image is waiting
+    Base::EventHandler <MS_Blueball_Decide> h_onNewImage;
 
-	/*!
-	 * Event handler function.
-	 */
-	void onNewBlobs();
+    /*!
+     * Event handler function.
+     */
+    void onNewBlobs();
 
-	/// New set of blobs is waiting
-	Base::EventHandler <MS_Blueball_Decide> h_onNewBlobs;
+    /// New set of blobs is waiting
+    Base::EventHandler <MS_Blueball_Decide> h_onNewBlobs;
 
-	/// Event handler function.
-	void onNewCameraInfo();
+    /// Event handler function.
+    void onNewCameraInfo();
 
-	/// New camera info is waiting.
-	Base::EventHandler <MS_Blueball_Decide> h_onNewCameraInfo;
+    /// New camera info is waiting.
+    Base::EventHandler <MS_Blueball_Decide> h_onNewCameraInfo;
 
-	/// Input blobs
-	Base::DataStreamIn <Types::Blobs::BlobResult> in_blobs;
+    /// Input blobs
+    Base::DataStreamIn <Types::Blobs::BlobResult> in_blobs;
 
-	/// Input hue image
-	Base::DataStreamIn <cv::Mat> in_hue;
+    /// Input hue image
+    Base::DataStreamIn <cv::Mat> in_hue;
 
-	/// Input data stream containing camera properties.
-	Base::DataStreamIn <Types::CameraInfo> in_cameraInfo;
+    /// Input data stream containing camera properties.
+    Base::DataStreamIn <Types::CameraInfo> in_cameraInfo;
 
-	/// Event raised, when data is processed
-//	Base::Event * newImage;
+    /// Event raised, when data is processed
+    //	Base::Event * newImage;
 
-	/// Output data stream - list of ellipses around found Blueballs
-	Base::DataStreamOut < Types::DrawableContainer > out_balls;
+    /// Output data stream - list of ellipses around found Blueballs
+    Base::DataStreamOut < Types::DrawableContainer > out_balls;
 
-	/// Position of the blueball in image coordinates.
-	Base::DataStreamOut <Types::ImagePosition> out_imagePosition;
+    /// Position of the blueball in image coordinates.
+    Base::DataStreamOut <Types::ImagePosition> out_imagePosition;
 
-	/// Raised when object has been located on the image.
+    /// Raised when object has been located on the image.
     //Base::Event *found;
 
-	/// Raised when object has not been located on the image.
+    /// Raised when object has not been located on the image.
     //Base::Event *notFound;
 
-	/// Properties
-	Props props;
+    /// Properties
+    Props props;
 
 private:
-	cv::Mat hue_img;
-	cv::Mat segments;
+    cv::Mat hue_img;
+    cv::Mat segments;
 
-	bool blobs_ready;
-	bool hue_ready;
+    bool blobs_ready;
+    bool hue_ready;
 
-	Types::Blobs::BlobResult blobs;
+    Types::Blobs::BlobResult blobs;
 
-	// Data related to the utilized camera.
-	Types::CameraInfo cameraInfo;
+    // Data related to the utilized camera.
+    Types::CameraInfo cameraInfo;
 };
 
 }//: namespace MS_Blueball
