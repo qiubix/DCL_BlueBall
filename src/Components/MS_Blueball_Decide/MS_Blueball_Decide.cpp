@@ -135,13 +135,13 @@ bool MS_Blueball_Decide::onStep()
         out_balls.write(Blueballs);
 
 
-        double maxPixels = std::max(cameraInfo.size().width, cameraInfo.size().height);
+        double maxPixels = std::max(cameraInfo.width, cameraInfo.height);
         double diameter=std::max(r2.size.width, r2.size.height)/maxPixels;
         Types::ImagePosition imagePosition;
         std::cout << "Srednica: " <<  std::max(r2.size.width, r2.size.height)<<std::endl;
         // Change coordinate system hence it will return coordinates from (-1,1), center is 0.
-        imagePosition.elements[0] = (r2.center.x - cameraInfo.size().width / 2) / maxPixels;
-        imagePosition.elements[1] = (r2.center.y - cameraInfo.size().height / 2) / maxPixels;
+        imagePosition.elements[0] = (r2.center.x - cameraInfo.width / 2) / maxPixels;
+        imagePosition.elements[1] = (r2.center.y - cameraInfo.height / 2) / maxPixels;
         // Elipse factor
         imagePosition.elements[2] = diameter;
         // Rotation - in case of blueball - zero.

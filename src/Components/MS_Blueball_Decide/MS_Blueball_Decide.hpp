@@ -1,8 +1,8 @@
 /*!
  * \file MS_Blueball_Decide.hpp
  * \brief
- * \author mstefanc
- * \date 2010-07-05
+ * \author qiubix
+ * \date
  */
 
 #ifndef MS_BLUEBALL_DECIDE_HPP_
@@ -10,9 +10,7 @@
 
 #include "Component_Aux.hpp"
 #include "Component.hpp"
-//#include "Panel_Empty.hpp"
 #include "DataStream.hpp"
-#include "Props.hpp"
 
 #include <opencv2/opencv.hpp>
 #include <highgui.h>
@@ -22,32 +20,12 @@
 #include "Types/BlobResult.hpp"
 #include "Types/DrawableContainer.hpp"
 #include "Types/ImagePosition.hpp"
-#include "Types/CameraInfo.hpp"
 
 namespace Processors {
 namespace MS_Blueball {
 
 using namespace cv;
 
-/*!
- * \brief MS_Blueball_Decide properties
- */
-struct Props: public Base::Props
-{
-    /*!
-     * \copydoc Base::Props::load
-     */
-    void load(const ptree & pt)
-    {
-    }
-
-    /*!
-     * \copydoc Base::Props::save
-     */
-    void save(ptree & pt)
-    {
-    }
-};
 
 /*!
  * \class MS_Blueball_Decide
@@ -69,10 +47,10 @@ public:
     /*!
      * Return window properties
      */
-    Base::Props * getProperties()
-    {
-        return &props;
-    }
+    //Base::Props * getProperties()
+    //{
+     //   return &props;
+    //}
 
     void prepareInterface();
 
@@ -133,7 +111,7 @@ protected:
     Base::DataStreamIn <cv::Mat> in_hue;
 
     /// Input data stream containing camera properties.
-    Base::DataStreamIn <Types::CameraInfo> in_cameraInfo;
+    Base::DataStreamIn <cv::Size> in_cameraInfo;
 
     /// Event raised, when data is processed
     //	Base::Event * newImage;
@@ -151,7 +129,7 @@ protected:
     //Base::Event *notFound;
 
     /// Properties
-    Props props;
+    //Props props;
 
 private:
     cv::Mat hue_img;
@@ -163,7 +141,7 @@ private:
     Types::Blobs::BlobResult blobs;
 
     // Data related to the utilized camera.
-    Types::CameraInfo cameraInfo;
+    cv::Size cameraInfo;
 };
 
 }//: namespace MS_Blueball
