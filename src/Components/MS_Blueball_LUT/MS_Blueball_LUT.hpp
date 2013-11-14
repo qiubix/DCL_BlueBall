@@ -10,7 +10,6 @@
 
 #include "Component_Aux.hpp"
 #include "Component.hpp"
-//#include "Panel_Empty.hpp"
 #include "DataStream.hpp"
 
 #include "Property.hpp"
@@ -81,9 +80,6 @@ protected:
 
     /// Input image
     Base::DataStreamIn <Mat> in_img;
-
-    /// Event raised, when image is processed
-    //Base::Event * newImage;
 
     /// Output data stream - hue part with continous red
     Base::DataStreamOut <Mat> out_hue;

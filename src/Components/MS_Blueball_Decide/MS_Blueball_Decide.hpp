@@ -122,12 +122,6 @@ protected:
     /// Position of the blueball in image coordinates.
     Base::DataStreamOut <Types::ImagePosition> out_imagePosition;
 
-    /// Raised when object has been located on the image.
-    //Base::Event *found;
-
-    /// Raised when object has not been located on the image.
-    //Base::Event *notFound;
-
     /// Properties
     //Props props;
 

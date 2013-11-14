@@ -149,9 +149,6 @@ bool MS_Blueball_Decide::onStep()
 
         // Write to stream.
         out_imagePosition.write(imagePosition);
-        // Raise events.
-        //found->raise();
-        //newImage->raise();
 
         return true;
     } catch (...) {
