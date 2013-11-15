@@ -18,7 +18,7 @@
                 <Component name="ColorConv" type="CvBasic:CvColorConv" priority="2" bump="0">
                     <param name="type">BGR2HSV</param>
                 </Component>
-                <Component name="LUT" type="MS:MS_BlueBall_LUT" priority="3" bump="0">
+                <Component name="LUT" type="BlueBall:MS_Blueball_LUT" priority="3" bump="0">
                 </Component>
                 <Component name="MorphClose" type="CvBasic:CvMorphology" priority="4" bump="0">
                     <param name="type">MORPH_CLOSE</param>
@@ -31,7 +31,9 @@
                 <Component name="Blob" type="CvBlobs:BlobExtractor" priority="6" bump="0">
                     <param name="min_size">500</param>
                 </Component>
-                <Component name="Decide" type="MS:MS_BlueBall_Decide" priority="7" bump="0">
+<!--                <Component name="Update" type="MS:MS_Blueball_Network" priority="7" bump="0">
+                </Component> -->
+                <Component name="Decide" type="BlueBall:MS_Blueball_Decide" priority="7" bump="0">
                 </Component>
             </Executor>
             <Executor name="Visualization" period="0.1">
@@ -50,7 +52,7 @@
         <Source name="ColorConv.out_img">
             <sink>LUT.in_img</sink>
         </Source>
-        <Source name="LUT.out_img">
+        <Source name="LUT.out_segments">
             <sink>MorphClose.in_img</sink>
         </Source>
         <Source name="MorphClose.out_img">
@@ -59,11 +61,11 @@
         <Source name="MorphOpen.out_img">
             <sink>Blob.in_img</sink>
         </Source>
-        <Source name="Blob.out_img">
-            <sink>Decide.in_img</sink>
+        <Source name="Blob.out_blobs">
+            <sink>Decide.in_blobs</sink>
             <sink>Wnd1.in_img1</sink>
         </Source>
-        <Source name="Decide.out_img">
+        <Source name="Decide.out_balls">
             <sink>Wnd1.in_draw0</sink>
         </Source>
     </DataStreams>

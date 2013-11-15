@@ -1,5 +1,5 @@
 #Project name
-PROJECT(MS)
+PROJECT(Blueball)
 
 # CMake required version must be >= 2.6
 cmake_minimum_required(VERSION 2.6)

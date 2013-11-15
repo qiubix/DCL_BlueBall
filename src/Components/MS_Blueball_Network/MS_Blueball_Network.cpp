@@ -44,7 +44,7 @@ LOG(LTRACE) << "DiceNetwork::initialize\n";
 
         registerStream("out_img", &out_img);
 
-    theNet.ReadFile("/home/qiubix/DCL/dice_network.xdsl", DSL_XDSL_FORMAT);
+    theNet.ReadFile("/home/qiubix/DCL/blueball_network.xdsl", DSL_XDSL_FORMAT);
 
 }
 
