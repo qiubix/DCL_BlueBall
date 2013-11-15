@@ -3,38 +3,37 @@
  * \brief
  */
 
-#ifndef DICENETWORK_HPP_
-#define DICENETWORK_HPP_
+#ifndef MS_BLUEBALL_NETWORK_HPP_
+#define MS_BLUEBALL_NETWORK_HPP_
 
 #include "Component_Aux.hpp"
 #include "Component.hpp"
-#include "Panel_Empty.hpp"
 #include "DataStream.hpp"
 
 #include <opencv2/opencv.hpp>
 #include "../../SMILE/smile.h"
 
 namespace Processors {
-namespace DiceNetwork {
+namespace MS_Blueball {
 
 using namespace cv;
 
 /*!
- * \class DiceNetwork
- * \brief DiceNetwork processor class.
+ * \class MS_Blueball_Network
+ * \brief MS_Blueball_Network processor class.
  */
-class DiceNetwork: public Base::Component
+class MS_Blueball_Network: public Base::Component
 {
 public:
 	/*!
 	 * Constructor.
 	 */
-	DiceNetwork(const std::string & name = "");
+    MS_Blueball_Network(const std::string & name = "");
 
 	/*!
 	 * Destructor
 	 */
-	virtual ~DiceNetwork();
+    virtual ~MS_Blueball_Network();
 
 
 protected:
@@ -57,7 +56,7 @@ protected:
 	void onNewImage();
 
 	// Event handler.
-	Base::EventHandler <DiceNetwork> h_onNewImage;
+    Base::EventHandler <MS_Blueball_Network> h_onNewImage;
 
 	// Event emited after the image is processed.
     //Base::Event * newImage;
@@ -90,13 +89,13 @@ protected:
 
 };
 
-}//: namespace DiceNetwork
+}//: namespace MS_Blueball
 }//: namespace Processors
 
 
 /*
  * Register processor component.
  */
-REGISTER_COMPONENT("DiceNetwork", Processors::DiceNetwork::DiceNetwork);
+REGISTER_COMPONENT("MS_Blueball_Network", Processors::MS_Blueball::MS_Blueball_Network)
 
-#endif /* DICENETWORK_HPP_ */
+#endif /* MS_BLUEBALL_NETWORK_HPP_ */

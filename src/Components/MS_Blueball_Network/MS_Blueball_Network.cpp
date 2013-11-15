@@ -10,29 +10,29 @@
 #include "Common/Logger.hpp"
 
 namespace Processors {
-namespace DiceNetwork {
+namespace MS_Blueball {
 
 using namespace cv;
 
-DiceNetwork::DiceNetwork(const std::string & name) : Base::Component(name)
+MS_Blueball_Network::MS_Blueball_Network(const std::string & name) : Base::Component(name)
 {
-	LOG(LTRACE) << "Hello DiceNetwork\n";
+    LOG(LTRACE) << "Hello MS_Blueball_Network\n";
 }
 
-DiceNetwork::~DiceNetwork()
+MS_Blueball_Network::~MS_Blueball_Network()
 {
-	LOG(LTRACE) << "Good bye DiceNetwork\n";
+    LOG(LTRACE) << "Good bye MS_Blueball_Network\n";
 }
 
-void DiceNetwork::prepareInterface()
+void MS_Blueball_Network::prepareInterface()
 {
 
-LOG(LTRACE) << "DiceNetwork::initialize\n";
+LOG(LTRACE) << "MS_Blueball_Network::initialize\n";
 
     // Register data streams, events and event handlers HERE!
 
         // Register handler.
-        h_onNewImage.setup(this, &DiceNetwork::onNewImage);
+        h_onNewImage.setup(this, &MS_Blueball_Network::onNewImage);
         registerHandler("onNewImage", &h_onNewImage);
         // Register data streams.
         registerStream("in_img", &in_img);
@@ -48,36 +48,36 @@ LOG(LTRACE) << "DiceNetwork::initialize\n";
 
 }
 
-bool DiceNetwork::onInit()
+bool MS_Blueball_Network::onInit()
 {
-    LOG(LTRACE) << "DiceNetwork::onInit()\n";
+    LOG(LTRACE) << "MS_Blueball_Network::onInit()\n";
         return true;
 }
 
-bool DiceNetwork::onFinish()
+bool MS_Blueball_Network::onFinish()
 {
-	LOG(LTRACE) << "DiceNetwork::finish\n";
+    LOG(LTRACE) << "MS_Blueball_Network::finish\n";
 
 	return true;
 }
 
-bool DiceNetwork::onStep()
+bool MS_Blueball_Network::onStep()
 {
-	LOG(LTRACE) << "DiceNetwork::step\n";
+    LOG(LTRACE) << "MS_Blueball_Network::step\n";
 	return true;
 }
 
-bool DiceNetwork::onStop()
-{
-	return true;
-}
-
-bool DiceNetwork::onStart()
+bool MS_Blueball_Network::onStop()
 {
 	return true;
 }
 
-void DiceNetwork::onNewImage()
+bool MS_Blueball_Network::onStart()
+{
+	return true;
+}
+
+void MS_Blueball_Network::onNewImage()
 {
 
 	Mat img = in_img.read();
@@ -198,9 +198,8 @@ void DiceNetwork::onNewImage()
 	//theNet.WriteFile("newNet.xdsl", DSL_XDSL_FORMAT);
 
 	out_img.write(img);
-    //newImage->raise();
 
 }
 
-}//: namespace DiceNetwork
+}//: namespace MS_Blueball
 }//: namespace Processors
