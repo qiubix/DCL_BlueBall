@@ -15,6 +15,11 @@
                 </Component> -->
                 <Component name="Seq1" type="CvBasic:CameraOpenCV" priority="1" bump="0">
                 </Component>
+                <!--          	<Component name="Seq1" type="CameraUniCap:CameraUniCap" priority="1" bump="0">
+                    <param name="directory">/home/qiubix/DCL/BlueBall/data/Blueball</param>
+                    <param name="triggered">false</param>
+                    <param name="loop">true</param>
+                </Component>	-->
                 <Component name="ColorConv" type="CvBasic:CvColorConv" priority="2" bump="0">
                     <param name="type">BGR2HSV</param>
                 </Component>
@@ -54,6 +59,9 @@
         </Source>
         <Source name="LUT.out_segments">
             <sink>MorphClose.in_img</sink>
+        </Source>
+        <Source name="LUT.out_hue">
+            <sink>Decide.in_hue</sink>
         </Source>
         <Source name="MorphClose.out_img">
             <sink>MorphOpen.in_img</sink>

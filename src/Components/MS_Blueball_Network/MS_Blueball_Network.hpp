@@ -13,6 +13,8 @@
 #include <opencv2/opencv.hpp>
 #include "../../SMILE/smile.h"
 
+#include "Types/ImagePosition.hpp"
+
 namespace Processors {
 namespace MS_Blueball {
 
@@ -42,12 +44,6 @@ protected:
 
 	// Input data stream
 	Base::DataStreamIn <Mat> in_img;
-
-	Base::DataStreamIn <vector<vector<int> > > in_doubles;
-	Base::DataStreamIn <vector<vector<int> > > in_triples;	
-
-	Base::DataStreamIn <vector<vector<double> > > in_close;
-	Base::DataStreamIn <vector<vector<double> > > in_parallel;
 
 	// Output data stream
 	Base::DataStreamOut <Mat> out_img;
@@ -86,6 +82,16 @@ protected:
 	 * Stop component
 	 */
 	bool onStop();
+
+private:
+
+    vector <double> features;
+
+    Base::DataStreamIn <Types::ImagePosition> in_imagePosition;
+
+    void extractFeatures();
+
+    void updateNetwork();
 
 };
 
