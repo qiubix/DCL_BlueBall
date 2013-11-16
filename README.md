@@ -7,5 +7,6 @@ Description
 
 Dependencies
 ------------
-CvBasic DCL
-CvBlobs DCL
+CvBasic,
+CvBlobs,
+CameraUniCap
