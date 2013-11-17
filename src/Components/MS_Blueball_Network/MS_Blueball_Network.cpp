@@ -103,13 +103,14 @@ void MS_Blueball_Network::updateFeatureVector(Types::ImagePosition imagePosition
         features.push_back(flatness);
         features.push_back(area);
     }
-    double diameter = imagePosition.elements[2];
+    double newDiameter = imagePosition.elements[2];
     double newFlatness = imagePosition.elements[3];
     double newArea = imagePosition.elements[4];
 
     //FIXME: Use logger?
-    std::cout << "Diameter: " << diameter << std::endl;
-    std::cout << "Flatness: " << flatness << std::endl;
+    std::cout << "Diameter: " << newDiameter << std::endl;
+    std::cout << "Flatness: " << newFlatness << std::endl;
+    std::cout << "Area: " << newArea << std::endl;
 
     features[0].push_back(newFlatness);
     features[1].push_back(newArea);
