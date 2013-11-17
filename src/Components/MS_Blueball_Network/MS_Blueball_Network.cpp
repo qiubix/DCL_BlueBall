@@ -140,9 +140,27 @@ double* MS_Blueball_Network::computeProbabilities()
     return probabilities;
 }
 
-void MS_Blueball_Network::updateNetwork()
+void MS_Blueball_Network::updateNetwork(double* newProbabilities)
 {
+    //FIXME: change names
+    double highFlatnessProbability = newProbabilities[0];
+    double highAreaProbability = newProbabilities[1];
 
+    int ellipse = theNet.FindNode("ellipse");
+    int area = theNet.FindNode("area");
+
+    DSL_doubleArray theProbs;
+    theProbs.SetSize(2);
+
+    theProbs[0] = highFlatnessProbability;
+    theProbs[1] = 1 - highFlatnessProbability;
+    theNet.GetNode(ellipse) -> Definition() -> SetDefinition(theProbs);
+
+    theProbs[0] = highAreaProbability;
+    theProbs[1] = 1 - highAreaProbability;
+    theNet.GetNode(area) -> Definition() -> SetDefinition(theProbs);
+
+    theNet.UpdateBeliefs();
 }
 
 }//: namespace MS_Blueball
