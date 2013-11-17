@@ -151,7 +151,8 @@ bool MS_Blueball_Decide::onStep()
         // Rotation - in case of blueball - zero.
         imagePosition.elements[3] = wsp_elips;
 
-        //TODO: Return area of ellipse
+        // Area of an object
+        imagePosition.elements[4] = area;
 
         // Write to stream.
         out_imagePosition.write(imagePosition);
