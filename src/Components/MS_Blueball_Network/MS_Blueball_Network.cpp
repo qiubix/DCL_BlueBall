@@ -83,7 +83,7 @@ void MS_Blueball_Network::onNewImage()
 
     Types::ImagePosition imagePosition = in_imagePosition.read();
 
-    updateVectorOfFeatures(imagePosition);
+    updateFeatureVector(imagePosition);
 
     double* newProbabilities = computeProbabilities();
 
@@ -113,7 +113,7 @@ void MS_Blueball_Network::onNewImage()
 
 }
 
-void MS_Blueball_Network::updateVectorOfFeatures(Types::ImagePosition imagePosition)
+void MS_Blueball_Network::updateFeatureVector(Types::ImagePosition imagePosition)
 {
     if(features.size() == 0) {
         vector <double> flatness;

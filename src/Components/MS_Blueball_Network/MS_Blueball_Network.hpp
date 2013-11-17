@@ -89,8 +89,7 @@ private:
 
     Base::DataStreamIn <Types::ImagePosition> in_imagePosition;
 
-    //FIXME: Change name
-    void updateVectorOfFeatures(Types::ImagePosition imagePosition);
+    void updateFeatureVector(Types::ImagePosition imagePosition);
 
     double* computeProbabilities();
 
