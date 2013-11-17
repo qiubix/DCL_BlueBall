@@ -87,25 +87,7 @@ void MS_Blueball_Network::onNewImage()
 
     double* newProbabilities = computeProbabilities();
 
-    //FIXME: change names
-    double highFlatnessProbability = newProbabilities[0];
-    double highAreaProbability = newProbabilities[1];
-
-    int ellipse = theNet.FindNode("ellipse");
-    int area = theNet.FindNode("area");
-
-    DSL_doubleArray theProbs;
-    theProbs.SetSize(2);
-
-    theProbs[0] = highFlatnessProbability;
-    theProbs[1] = 1 - highFlatnessProbability;
-    theNet.GetNode(ellipse) -> Definition() -> SetDefinition(theProbs);
-
-    theProbs[0] = highAreaProbability;
-    theProbs[1] = 1 - highAreaProbability;
-    theNet.GetNode(area) -> Definition() -> SetDefinition(theProbs);
-
-    theNet.UpdateBeliefs();
+    updateNetwork(newProbabilities);
 
     //TODO: Compute decision
 
