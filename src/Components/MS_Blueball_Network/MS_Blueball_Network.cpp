@@ -83,19 +83,13 @@ void MS_Blueball_Network::onNewImage()
 
     Types::ImagePosition imagePosition = in_imagePosition.read();
 
-    //TODO: change names
-    double highFlatnessProbability;
-    double highAreaProbability;
+    updateVectorOfFeatures(imagePosition);
 
-    double diameter = imagePosition.elements[2];
-    double flatness = imagePosition.elements[3];
+    double* newProbabilities = computeProbabilities();
 
-    std::cout << "Diameter: " << diameter << std::endl;
-    std::cout << "Flatness: " << flatness << std::endl;
-
-
-    //TODO: Add method computing new probabilities
-
+    //FIXME: change names
+    double highFlatnessProbability = newProbabilities[0];
+    double highAreaProbability = newProbabilities[1];
 
     int ellipse = theNet.FindNode("ellipse");
     int area = theNet.FindNode("area");
@@ -119,9 +113,22 @@ void MS_Blueball_Network::onNewImage()
 
 }
 
-void MS_Blueball_Network::extractFeatures()
+void MS_Blueball_Network::updateVectorOfFeatures(Types::ImagePosition imagePosition)
 {
+    double diameter = imagePosition.elements[2];
+    double flatness = imagePosition.elements[3];
 
+    //TODO: Get area of ellipse
+
+    std::cout << "Diameter: " << diameter << std::endl;
+    std::cout << "Flatness: " << flatness << std::endl;
+}
+
+double* MS_Blueball_Network::computeProbabilities()
+{
+    //TODO: compute new probabilities using feature vector
+    double probabilities[2] = {0.5, 0.5};
+    return probabilities;
 }
 
 void MS_Blueball_Network::updateNetwork()

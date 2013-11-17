@@ -85,11 +85,14 @@ protected:
 
 private:
 
-    vector <double> features;
+    vector <vector <double> > features;
 
     Base::DataStreamIn <Types::ImagePosition> in_imagePosition;
 
-    void extractFeatures();
+    //FIXME: Change name
+    void updateVectorOfFeatures(Types::ImagePosition imagePosition);
+
+    double* computeProbabilities();
 
     void updateNetwork();
 

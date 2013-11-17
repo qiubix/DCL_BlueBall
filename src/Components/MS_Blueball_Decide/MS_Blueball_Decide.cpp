@@ -7,6 +7,7 @@
 
 #include <memory>
 #include <string>
+#include <math.h>
 
 #include "MS_Blueball_Decide.hpp"
 #include "Logger.hpp"
@@ -137,6 +138,9 @@ bool MS_Blueball_Decide::onStep()
 
         double maxPixels = std::max(cameraInfo.width, cameraInfo.height);
         double diameter=std::max(r2.size.width, r2.size.height)/maxPixels;
+
+        double area = M_PI*a*b;
+
         Types::ImagePosition imagePosition;
         std::cout << "Srednica: " <<  std::max(r2.size.width, r2.size.height)<<std::endl;
         // Change coordinate system hence it will return coordinates from (-1,1), center is 0.
@@ -146,6 +150,8 @@ bool MS_Blueball_Decide::onStep()
         imagePosition.elements[2] = diameter;
         // Rotation - in case of blueball - zero.
         imagePosition.elements[3] = wsp_elips;
+
+        //TODO: Return area of ellipse
 
         // Write to stream.
         out_imagePosition.write(imagePosition);
