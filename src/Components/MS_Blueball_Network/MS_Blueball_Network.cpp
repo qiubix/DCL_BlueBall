@@ -115,13 +115,22 @@ void MS_Blueball_Network::onNewImage()
 
 void MS_Blueball_Network::updateVectorOfFeatures(Types::ImagePosition imagePosition)
 {
+    if(features.size() == 0) {
+        vector <double> flatness;
+        vector <double> area;
+        features.push_back(flatness);
+        features.push_back(area);
+    }
     double diameter = imagePosition.elements[2];
-    double flatness = imagePosition.elements[3];
+    double newFlatness = imagePosition.elements[3];
+    //double newArea = imagePosition.elements[4];
 
-    //TODO: Get area of ellipse
-
+    //FIXME: Use logger?
     std::cout << "Diameter: " << diameter << std::endl;
     std::cout << "Flatness: " << flatness << std::endl;
+
+    features[0].push_back(newFlatness);
+    features[1].push_back(newArea);
 }
 
 double* MS_Blueball_Network::computeProbabilities()
