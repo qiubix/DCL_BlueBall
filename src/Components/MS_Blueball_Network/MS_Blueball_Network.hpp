@@ -94,7 +94,7 @@ private:
 
     double* computeProbabilities();
 
-    void updateNetwork();
+    void updateNetwork(double* newProbabilities);
 
 };
 
