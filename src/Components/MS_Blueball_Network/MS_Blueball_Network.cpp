@@ -107,7 +107,6 @@ void MS_Blueball_Network::updateFeatureVector(Types::ImagePosition imagePosition
     double newFlatness = imagePosition.elements[3];
     double newArea = imagePosition.elements[4];
 
-    //FIXME: Use logger?
     LOG(LWARNING) << "Diameter: " << newDiameter << "\n";
     LOG(LWARNING) << "Flatness: " << newFlatness << "\n";
     LOG(LWARNING) << "Area: " << newArea << "\n";
@@ -124,6 +123,7 @@ double* MS_Blueball_Network::calculateProbabilities()
     vector <double> flatness = features[0];
     vector <double> area = features[1];
 
+    //FIXME: local variable returned
     double probabilities[2] = {0.5, 0.5};
     return probabilities;
 }

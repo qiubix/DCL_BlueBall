@@ -91,7 +91,7 @@ private:
 
     void updateFeatureVector(Types::ImagePosition imagePosition);
 
-    double* computeProbabilities();
+    double* calculateProbabilities();
 
     void updateNetwork(double* newProbabilities);
 
