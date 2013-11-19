@@ -13,13 +13,13 @@
                     <param name="triggered">false</param>
                     <param name="loop">true</param>
                 </Component> -->
-                <!--          	<Component name="Seq1" type="CvBasic:CameraOpenCV" priority="1" bump="0">
-                </Component>-->
-                <Component name="Seq1" type="CameraUniCap:CameraUniCap" priority="1" bump="0">
-                    <param name="directory">/home/kkaterza/DCL/BlueBall/data/Blueball</param>
+                <Component name="Seq1" type="CvBasic:CameraOpenCV" priority="1" bump="0">
+                </Component>
+                <!--          	<Component name="Seq1" type="CameraUniCap:CameraUniCap" priority="1" bump="0">
+                    <param name="directory">/home/qiubix/DCL/BlueBall/data/Blueball</param>
                     <param name="triggered">false</param>
                     <param name="loop">true</param>
-                </Component>	
+                </Component>	-->
                 <Component name="ColorConv" type="CvBasic:CvColorConv" priority="2" bump="0">
                     <param name="type">BGR2HSV</param>
                 </Component>
