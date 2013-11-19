@@ -124,7 +124,7 @@ double* MS_Blueball_Network::calculateProbabilities()
     vector <double> area = features[1];
 
     //FIXME: local variable returned
-    double probabilities[2] = {0.5, 0.5};
+    double probabilities[2] = {0.4, 0.7};
     return probabilities;
 }
 
