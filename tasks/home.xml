@@ -55,14 +55,15 @@
             <sink>Wnd1.in_img0</sink>
         </Source>
         <Source name="ColorConv.out_img">
-            <sink>LUT.in_img</sink>
+            <!-- <sink>LUT.in_img</sink>-->
+	    <sink>MorphClose.in_img</sink>
         </Source>
-        <Source name="LUT.out_segments">
+        <!-- <Source name="LUT.out_segments">
             <sink>MorphClose.in_img</sink>
         </Source>
         <Source name="LUT.out_hue">
             <sink>Decide.in_hue</sink>
-        </Source>
+        </Source>-->
         <Source name="MorphClose.out_img">
             <sink>MorphOpen.in_img</sink>
         </Source>
