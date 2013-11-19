@@ -69,6 +69,7 @@
         </Source>
         <Source name="MorphOpen.out_img">
             <sink>Blob.in_img</sink>
+	    <sink>Wnd1.in_img2</sink>
         </Source>
         <Source name="Blob.out_blobs">
             <sink>Decide.in_blobs</sink>
