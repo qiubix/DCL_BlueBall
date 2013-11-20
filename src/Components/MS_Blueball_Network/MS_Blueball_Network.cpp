@@ -85,7 +85,7 @@ void MS_Blueball_Network::onNewImage()
 
     updateFeatureVector(imagePosition);
 
-    double* newProbabilities = calculateProbabilities();
+    calculateProbabilities();
 
     updateNetwork(newProbabilities);
 
@@ -115,17 +115,25 @@ void MS_Blueball_Network::updateFeatureVector(Types::ImagePosition imagePosition
     features[1].push_back(newArea);
 }
 
-double* MS_Blueball_Network::calculateProbabilities()
+void MS_Blueball_Network::calculateProbabilities()
 {
-    //TODO: compute new probabilities using feature vector
     double newFlatnessProbability;
     double newAreaProbability;
     vector <double> flatness = features[0];
     vector <double> area = features[1];
+    double currentFlatness = flatness.back();
+    double currentArea = area.back();
 
-    //FIXME: local variable returned
-    double probabilities[2] = {0.4, 0.7};
-    return probabilities;
+    if(currentFlatness <= 0.8) {
+        newFlatnessProbability = 0;
+    } else {
+        newFlatnessProbability = 1 - (1-currentFlatness)/0.2;
+    }
+    //TODO: compute probability for area
+    newAreaProbability = 0.5;
+
+    newProbabilities[0] = newFlatnessProbability;
+    newProbabilities[1] = newAreaProbability;
 }
 
 void MS_Blueball_Network::updateNetwork(double* newProbabilities)

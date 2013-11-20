@@ -87,11 +87,13 @@ private:
 
     vector <vector <double> > features;
 
+    double newProbabilities[2];
+
     Base::DataStreamIn <Types::ImagePosition> in_imagePosition;
 
     void updateFeatureVector(Types::ImagePosition imagePosition);
 
-    double* calculateProbabilities();
+    void calculateProbabilities();
 
     void updateNetwork(double* newProbabilities);
 
