@@ -31,7 +31,7 @@
                 </Component>
                 <Component name="MorphOpen" type="CvBasic:CvMorphology" priority="5" bump="0">
                     <param name="type">MORPH_OPEN</param>
-                    <param name="iteration">3</param>
+                    <param name="iterations">3</param>
                 </Component>
                 <Component name="Blob" type="CvBlobs:BlobExtractor" priority="6" bump="0">
                     <param name="min_size">500</param>

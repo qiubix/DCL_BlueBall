@@ -54,11 +54,11 @@
             <sink>ColorConv.in_img</sink>
             <sink>Wnd1.in_img0</sink>
         </Source>
-        <!-- <Source name="ColorConv.out_img">
+        <Source name="ColorConv.out_img">
             <sink>MorphClose.in_img</sink>
             <sink>Wnd1.in_img1</sink>
-        </Source>-->
-        <Source name="ColorConv.out_img">
+        </Source>
+        <!-- <Source name="ColorConv.out_img">
             <sink>LUT.in_img</sink>
         </Source>
         <Source name="LUT.out_segments">
@@ -66,22 +66,22 @@
         </Source>
         <Source name="LUT.out_hue">
             <sink>Decide.in_hue</sink>
-        </Source>
+        </Source>-->
         <Source name="MorphClose.out_img">
             <sink>MorphOpen.in_img</sink>
         </Source>
         <Source name="MorphOpen.out_img">
             <sink>Blob.in_img</sink>
-            <sink>Wnd1.in_img1</sink>
+            <sink>Wnd1.in_img2</sink>
         </Source>
-        <Source name="Blob.out_blobs">
+        <!-- <Source name="Blob.out_blobs">
             <sink>Decide.in_blobs</sink>
         </Source>
         <Source name="Blob.out_img">
-            <sink>Wnd1.in_img2</sink>
+            <sink>Wnd1.in_img1</sink>
         </Source>
         <Source name="Decide.out_balls">
             <sink>Wnd1.in_draw0</sink>
-        </Source>
+        </Source>-->
     </DataStreams>
 </Task>
