@@ -35,7 +35,7 @@
                 </Component>
                 <Component name="Decide" type="BlueBall:MS_Blueball_Decide" priority="80" bump="0">
                 </Component>
-<!--                <Component name="Update" type="MS:MS_Blueball_Network" priority="7" bump="0">
+<!--                <Component name="Update" type="BlueBall:MS_Blueball_Network" priority="7" bump="0">
                 </Component> -->
             </Executor>
             <Executor name="Visualization" period="0.1">
@@ -83,6 +83,9 @@
         </Source>
         <Source name="Decide.out_balls">
             <sink>Wnd1.in_draw0</sink>
+        </Source>
+        <Source name="Decide.out_imagePosition">
+            <sink>Update.in_imagePosition</sink>
         </Source>
     </DataStreams>
 </Task>
