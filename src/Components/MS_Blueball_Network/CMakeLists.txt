@@ -9,6 +9,10 @@ FILE(GLOB files *.cpp)
 
 # Create an executable file from sources:
 ADD_LIBRARY(MS_Blueball_Network SHARED ${files})
+
+TARGET_LINK_LIBRARIES(MS_Blueball_Network ${DisCODe_LIBRARIES})
 TARGET_LINK_LIBRARIES(MS_Blueball_Network ${OpenCV_LIBS} ${DisCODe_LIBRARIES} ${CvBlobs_LIBS})
+
+TARGET_LINK_LIBRARIES(MS_Blueball_Network smile smilearn)
 
 INSTALL_COMPONENT(MS_Blueball_Network)

@@ -13,6 +13,11 @@
                     <param name="triggered">false</param>
                     <param name="loop">true</param>
                 </Component>	
+                <!--          	<Component name="Seq1" type="CvBasic:Sequence" priority="1" bump="0">
+                    <param name="directory">/home/qiubix/DCL/BlueBall/data/Blueball</param>
+                    <param name="triggered">false</param>
+                    <param name="loop">true</param>
+                </Component> -->
                 <Component name="CameraInfo" type="CvCoreTypes:CameraInfoProvider" priority="2" bump="0">
                 </Component>
                 <Component name="ColorConv" type="CvBasic:CvColorConv" priority="3" bump="0">
@@ -32,9 +37,9 @@
                     <param name="min_size">500</param>
                 </Component>
                 <Component name="Decide" type="BlueBall:MS_Blueball_Decide" priority="8" bump="0">
-                </Component>
-<!--                <Component name="Update" type="MS:MS_Blueball_Network" priority="9" bump="0">
-                </Component> -->
+                </Component> 
+		<Component name="Update" type="BlueBall:MS_Blueball_Network" priority="9" bump="0">
+                </Component> 
             </Executor>
             <Executor name="Visualization" period="0.1">
                 <Component name="Wnd1" type="CvBasic:CvWindow" priority="1" bump="0">
@@ -77,5 +82,8 @@
         <Source name="Decide.out_balls">
             <sink>Wnd1.in_draw0</sink>
         </Source>
+	<Source name="Decide.out_imagePosition">
+	    <sink>Update.in_imagePosition</sink>
+	</Source>
     </DataStreams>
 </Task>

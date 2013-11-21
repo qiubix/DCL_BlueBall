@@ -11,6 +11,7 @@ FIND_PACKAGE(Boost 1.41.0 REQUIRED)
 include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 
 # Find another necessary libraries
+LINK_DIRECTORIES(${CMAKE_SOURCE_DIR}/lib/SMILE)
 
 # OpenCV library
 FIND_PACKAGE( OpenCV REQUIRED )

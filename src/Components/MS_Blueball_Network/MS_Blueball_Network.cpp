@@ -39,9 +39,12 @@ LOG(LTRACE) << "MS_Blueball_Network::initialize\n";
     registerStream("in_img", &in_img);
     registerStream("in_imagePosition", &in_imagePosition);
 
+    addDependency("onNewImage", &in_img);
+    addDependency("onNewImage", &in_imagePosition);
+
     registerStream("out_img", &out_img);
 
-    theNet.ReadFile("/home/qiubix/DCL/Blueball/blueball_network.xdsl", DSL_XDSL_FORMAT);
+    theNet.ReadFile("/home/kkaterza/DCL/BlueBall/blueball_network.xdsl", DSL_XDSL_FORMAT);
 
 }
 
@@ -107,9 +110,9 @@ void MS_Blueball_Network::updateFeatureVector(Types::ImagePosition imagePosition
     double newFlatness = imagePosition.elements[3];
     double newArea = imagePosition.elements[4];
 
-    LOG(LWARNING) << "Diameter: " << newDiameter << "\n";
-    LOG(LWARNING) << "Flatness: " << newFlatness << "\n";
-    LOG(LWARNING) << "Area: " << newArea << "\n";
+    //std::cout << "Diameter: " << newDiameter << "\n";
+    std::cout << "Flatness: " << newFlatness << "\n";
+    std::cout << "Area: " << newArea << "\n";
 
     features[0].push_back(newFlatness);
     features[1].push_back(newArea);
