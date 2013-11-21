@@ -8,11 +8,6 @@
     <Subtasks>
         <Subtask name="Main">
             <Executor name="Processing" period="0.1">
-                <!--<Component name="Seq1" type="CvBasic:Sequence" priority="1" bump="0">
-                    <param name="directory">/home/qiubix/DCL/BlueBall/data/Blueball</param>
-                    <param name="triggered">false</param>
-                    <param name="loop">true</param>
-                </Component> -->
                 <Component name="Seq1" type="CvBasic:CameraOpenCV" priority="1" bump="0">
                 </Component>
                 <Component name="CameraInfo" type="CvCoreTypes:CameraInfoProvider" priority="20" bump="0">
