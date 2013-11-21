@@ -113,7 +113,7 @@ void MS_Blueball_Network::updateFeatureVector(Types::ImagePosition imagePosition
 
     //std::cout << "Diameter: " << newDiameter << "\n";
     std::cout << "Flatness: " << newFlatness << "\n";
-    std::cout << "Area: " << newArea << "\n";
+    //std::cout << "Area: " << newArea << "\n";
 
     features[0].push_back(newFlatness);
     features[1].push_back(newArea);
@@ -146,6 +146,7 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
     double highFlatnessProbability = newProbabilities[0];
     double highAreaProbability = newProbabilities[1];
 
+    std::cout << "prob: " << highFlatnessProbability << "\n";
     int ellipse = theNet.FindNode("ellipse");
     int area = theNet.FindNode("area");
 
@@ -161,6 +162,9 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
     theNet.GetNode(area) -> Definition() -> SetDefinition(theProbs);
 
     theNet.UpdateBeliefs();
+
+    int flat = theNet.FindNode("flat");
+    DSL_Dmatrix* flat_CPT = theNet.GetNode(flat)->Definition()->GetMatrix();
 }
 
 }//: namespace MS_Blueball

@@ -144,7 +144,7 @@ void MS_Blueball_Decide::onStep()
         double area = M_PI*a*b;
 
         Types::ImagePosition imagePosition;
-        std::cout << "Srednica: " <<  std::max(r2.size.width, r2.size.height)<<std::endl;
+        //std::cout << "Srednica: " <<  std::max(r2.size.width, r2.size.height)<<std::endl;
         // Change coordinate system hence it will return coordinates from (-1,1), center is 0.
         imagePosition.elements[0] = (r2.center.x - cameraInfo.width / 2) / maxPixels;
         imagePosition.elements[1] = (r2.center.y - cameraInfo.height / 2) / maxPixels;
