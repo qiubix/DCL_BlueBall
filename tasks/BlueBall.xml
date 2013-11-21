@@ -20,6 +20,8 @@
                     <param name="triggered">false</param>
                     <param name="loop">true</param>
                 </Component>	
+                <Component name="CameraInfo" type="CvCoreTypes:CameraInfoProvider" priority="20" bump="0">
+                </Component>
                 <Component name="ColorConv" type="CvBasic:CvColorConv" priority="2" bump="0">
                     <param name="type">BGR2HSV</param>
                 </Component>
@@ -36,10 +38,10 @@
                 <Component name="Blob" type="CvBlobs:BlobExtractor" priority="6" bump="0">
                     <param name="min_size">500</param>
                 </Component>
-<!--                <Component name="Update" type="MS:MS_Blueball_Network" priority="7" bump="0">
-                </Component> -->
                 <Component name="Decide" type="BlueBall:MS_Blueball_Decide" priority="7" bump="0">
                 </Component>
+<!--                <Component name="Update" type="MS:MS_Blueball_Network" priority="7" bump="0">
+                </Component> -->
             </Executor>
             <Executor name="Visualization" period="0.1">
                 <Component name="Wnd1" type="CvBasic:CvWindow" priority="1" bump="0">
@@ -54,11 +56,15 @@
             <sink>ColorConv.in_img</sink>
             <sink>Wnd1.in_img0</sink>
         </Source>
+        <Source name="CameraInfo.out_camerainfo">
+            <sink>Decide.in_cameraInfo</sink>
+        </Source>
         <Source name="ColorConv.out_img">
             <sink>LUT.in_img</sink>
         </Source>
         <Source name="LUT.out_segments">
             <sink>MorphClose.in_img</sink>
+            <sink>Wnd1.in_img1</sink>
         </Source>
         <Source name="LUT.out_hue">
             <sink>Decide.in_hue</sink>
@@ -73,7 +79,7 @@
             <sink>Decide.in_blobs</sink>
         </Source>
         <Source name="Blob.out_img">
-            <sink>Wnd1.in_img1</sink>
+            <sink>Wnd1.in_img2</sink>
         </Source>
         <Source name="Decide.out_balls">
             <sink>Wnd1.in_draw0</sink>

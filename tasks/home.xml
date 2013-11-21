@@ -38,10 +38,10 @@
                 <Component name="Blob" type="CvBlobs:BlobExtractor" priority="70" bump="0">
                     <param name="min_size">500</param>
                 </Component>
-<!--                <Component name="Update" type="MS:MS_Blueball_Network" priority="7" bump="0">
-                </Component> -->
                 <Component name="Decide" type="BlueBall:MS_Blueball_Decide" priority="80" bump="0">
                 </Component>
+<!--                <Component name="Update" type="MS:MS_Blueball_Network" priority="7" bump="0">
+                </Component> -->
             </Executor>
             <Executor name="Visualization" period="0.1">
                 <Component name="Wnd1" type="CvBasic:CvWindow" priority="1" bump="0">
@@ -78,7 +78,7 @@
         </Source>
         <Source name="MorphOpen.out_img">
             <sink>Blob.in_img</sink>
-            <sink>Wnd1.in_img1</sink>
+            <!-- <sink>Wnd1.in_img1</sink>-->
         </Source>
         <Source name="Blob.out_blobs">
             <sink>Decide.in_blobs</sink>
