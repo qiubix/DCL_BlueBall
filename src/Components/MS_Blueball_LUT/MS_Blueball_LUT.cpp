@@ -58,6 +58,7 @@ void MS_Blueball_LUT::prepareInterface()
     registerHandler("onNewImage", &h_onNewImage);
 
     registerStream("in_img", &in_img);
+    addDependency("onNewImage", &in_img);
 
     registerStream("out_hue", &out_hue);
     registerStream("out_segments", &out_segments);

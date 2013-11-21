@@ -36,19 +36,17 @@ void MS_Blueball_Decide::prepareInterface()
 
     LOG(LTRACE) << "MS_Blueball_Decide::initialize\n";
 
-    h_onNewImage.setup(this, &MS_Blueball_Decide::onNewImage);
-    registerHandler("onNewImage", &h_onNewImage);
-
-    h_onNewBlobs.setup(this, &MS_Blueball_Decide::onNewBlobs);
-    registerHandler("onNewBlobs", &h_onNewBlobs);
-
-    h_onNewCameraInfo.setup(this, &MS_Blueball_Decide::onNewCameraInfo);
-    registerHandler("onNewCameraInfo", &h_onNewCameraInfo);
+    h_onStep.setup(this, &MS_Blueball_Decide::onStep);
+    registerHandler("onStep", &h_onStep);
 
     // Register input streams.
     registerStream("in_blobs", &in_blobs);
     registerStream("in_hue", &in_hue);
     registerStream("in_cameraInfo", &in_cameraInfo);
+
+    addDependency("onStep", &in_blobs);
+    addDependency("onStep", &in_hue);
+    addDependency("onStep", &in_cameraInfo);
 
     //	found = registerEvent("Found");
     //notFound = registerEvent("NotFound");
@@ -72,11 +70,16 @@ bool MS_Blueball_Decide::onFinish()
     return true;
 }
 
-bool MS_Blueball_Decide::onStep()
+void MS_Blueball_Decide::onStep()
 {
     LOG(LTRACE) << "MS_Blueball_Decide::step\n";
 
     blobs_ready = hue_ready = false;
+
+
+    blobs = in_blobs.read();
+    cameraInfo = in_cameraInfo.read();
+    hue_img = in_hue.read();
 
     try {
         int id = 0;
@@ -93,7 +96,6 @@ bool MS_Blueball_Decide::onStep()
             // Raise events.
             //notFound->raise();
             //newImage->raise();
-            return true;
         }
 
         blobs.GetNthBlob(Types::Blobs::BlobGetArea(), 0, currentBlob);
@@ -157,10 +159,8 @@ bool MS_Blueball_Decide::onStep()
         // Write to stream.
         out_imagePosition.write(imagePosition);
 
-        return true;
     } catch (...) {
         LOG(LERROR) << "MS_Blueball_Decide::onNewImage failed\n";
-        return false;
     }
 }
 
@@ -172,33 +172,6 @@ bool MS_Blueball_Decide::onStop()
 bool MS_Blueball_Decide::onStart()
 {
     return true;
-}
-
-void MS_Blueball_Decide::onNewImage()
-{
-    LOG(LTRACE) << "MS_Blueball_Decide::onNewImage\n";
-
-    hue_ready = true;
-    hue_img = in_hue.read();
-    hue_img = hue_img.clone();
-    if (blobs_ready && hue_ready)
-        onStep();
-}
-
-void MS_Blueball_Decide::onNewBlobs()
-{
-    LOG(LTRACE) << "MS_Blueball_Decide::onNewBlobs\n";
-
-    blobs = in_blobs.read();
-    onStep();
-}
-
-void MS_Blueball_Decide::onNewCameraInfo()
-{
-    LOG(LTRACE) << "MS_Blueball_Decide::onNewCameraInfo\n";
-
-    cameraInfo = in_cameraInfo.read();
-    onStep();
 }
 
 

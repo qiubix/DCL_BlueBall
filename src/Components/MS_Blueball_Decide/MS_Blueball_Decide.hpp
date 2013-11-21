@@ -69,7 +69,7 @@ protected:
     /*!
      * Retrieves data from device.
      */
-    bool onStep();
+    void onStep();
 
     /*!
      * Start component
@@ -82,28 +82,8 @@ protected:
     bool onStop();
 
 
-    /*!
-     * Event handler function.
-     */
-    void onNewImage();
-
     /// New image is waiting
-    Base::EventHandler <MS_Blueball_Decide> h_onNewImage;
-
-    /*!
-     * Event handler function.
-     */
-    void onNewBlobs();
-
-    /// New set of blobs is waiting
-    Base::EventHandler <MS_Blueball_Decide> h_onNewBlobs;
-
-    /// Event handler function.
-    void onNewCameraInfo();
-
-    /// New camera info is waiting.
-    Base::EventHandler <MS_Blueball_Decide> h_onNewCameraInfo;
-
+    Base::EventHandler <MS_Blueball_Decide> h_onStep;
     /// Input blobs
     Base::DataStreamIn <Types::Blobs::BlobResult> in_blobs;
 
