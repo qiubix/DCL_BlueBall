@@ -11,7 +11,7 @@
 #include "DataStream.hpp"
 
 #include <opencv2/opencv.hpp>
-#include "../../SMILE/smile.h"
+#include "../../../lib/SMILE/smile.h"
 
 #include "Types/ImagePosition.hpp"
 
