@@ -35,8 +35,8 @@
                 </Component>
                 <Component name="Decide" type="BlueBall:MS_Blueball_Decide" priority="80" bump="0">
                 </Component>
-<!--                <Component name="Update" type="BlueBall:MS_Blueball_Network" priority="7" bump="0">
-                </Component> -->
+				<Component name="Update" type="BlueBall:MS_Blueball_Network" priority="7" bump="0">
+                </Component> 
             </Executor>
             <Executor name="Visualization" period="0.1">
                 <Component name="Wnd1" type="CvBasic:CvWindow" priority="1" bump="0">
