@@ -44,8 +44,9 @@ LOG(LTRACE) << "MS_Blueball_Network::initialize\n";
 
     registerStream("out_img", &out_img);
 
-    //theNet.ReadFile("/home/kkaterza/DCL/BlueBall/blueball_network.xdsl", DSL_XDSL_FORMAT);
-    theNet.ReadFile("/home/kkaterza/DCL/BlueBall/flatness2.xdsl", DSL_XDSL_FORMAT);
+    //theNet.ReadFile("/home/kkaterza/DCL/BlueBall/in_blueball_network.xdsl", DSL_XDSL_FORMAT);
+    //theNet.ReadFile("/home/kkaterza/DCL/BlueBall/flatness2.xdsl", DSL_XDSL_FORMAT);
+    createNetwork();
 
 }
 
@@ -68,15 +69,14 @@ void MS_Blueball_Network::createNetwork()
 
     DSL_doubleArray theProbs;
     theProbs.SetSize(2);
+
     theProbs[0] = 0.5;
     theProbs[1] = 0.5;
     theNet.GetNode(ellipse)->Definition()->SetDefinition(theProbs);
 
-    DSL_doubleArray theProbs;
-    theProbs.SetSize(2);
-    theProbs[0] = 0.5;
-    theProbs[1] = 0.5;
-    theNet.GetNode(ellipse)->Definition()->SetDefinition(theProbs);
+    theProbs[0] = 0.9;
+    theProbs[1] = 0.1;
+    theNet.GetNode(flat)->Definition()->SetDefinition(theProbs);
 
     theNet.WriteFile("newNet.xdsl", DSL_XDSL_FORMAT);
 
@@ -220,7 +220,7 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
     double flatProbability = theCoordinates.UncheckedValue();
     std::cout << " object is flat: " << flatProbability << "\n";
 
-    theNet.WriteFile("newNet2.xdsl", DSL_XDSL_FORMAT);
+    theNet.WriteFile("out_blueball_network.xdsl", DSL_XDSL_FORMAT);
 }
 
 }//: namespace MS_Blueball
