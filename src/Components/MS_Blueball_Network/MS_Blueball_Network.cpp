@@ -112,7 +112,7 @@ void MS_Blueball_Network::updateFeatureVector(Types::ImagePosition imagePosition
     double newArea = imagePosition.elements[4];
 
     //std::cout << "Diameter: " << newDiameter << "\n";
-    std::cout << "Flatness: " << newFlatness << "\n";
+    std::cout << "Flatness: " << newFlatness << "\t";
     //std::cout << "Area: " << newArea << "\n";
 
     features[0].push_back(newFlatness);
@@ -146,7 +146,7 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
     double highFlatnessProbability = newProbabilities[0];
     double highAreaProbability = newProbabilities[1];
 
-    std::cout << "prob: " << highFlatnessProbability << "\n";
+    std::cout << " High flatness prob: " << highFlatnessProbability << "\t";
     int ellipse = theNet.FindNode("ellipse");
     int area = theNet.FindNode("area");
 
@@ -165,6 +165,18 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
 
     int flat = theNet.FindNode("flat");
     DSL_Dmatrix* flat_CPT = theNet.GetNode(flat)->Definition()->GetMatrix();
+
+    DSL_sysCoordinates theCoordinates(*theNet.GetNode(flat)->Value());
+    DSL_idArray *theNames = theNet.GetNode(flat)->Definition()->GetOutcomesNames();
+
+    int moderateIndex = theNames->FindPosition("YES");
+    theCoordinates[0] = moderateIndex;
+    theCoordinates.GoToCurrentPosition();
+
+    double flatProbability = theCoordinates.UncheckedValue();
+    std::cout << " object is flat: " << flatProbability << "\n";
+
+    theNet.WriteFile("newNet.xdsl", DSL_XDSL_FORMAT);
 }
 
 }//: namespace MS_Blueball

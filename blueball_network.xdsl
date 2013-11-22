@@ -12,14 +12,14 @@
 			<probabilities>0.5 0.5</probabilities>
 		</cpt>
 		<cpt id="flat">
-			<state id="true" />
-			<state id="false" />
+			<state id="YES" />
+			<state id="NO" />
 			<parents>ellipse area</parents>
 			<probabilities>0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</probabilities>
 		</cpt>
 		<cpt id="nonflat">
-			<state id="true" />
-			<state id="false" />
+			<state id="YES" />
+			<state id="NO" />
 			<parents>ellipse area</parents>
 			<probabilities>0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5</probabilities>
 		</cpt>
