@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <smile version="1.0" id="Network1" numsamples="1000" discsamples="10000">
 	<nodes>
-		<cpt id="ellipse">
-			<state id="high" />
-			<state id="low" />
-			<probabilities>0.5 0.5</probabilities>
-		</cpt>
 		<cpt id="flat">
 			<state id="YES" />
 			<state id="NO" />
-			<parents>ellipse</parents>
+			<probabilities>0.5 0.5</probabilities>
+		</cpt>
+		<cpt id="ellipse">
+			<state id="high" />
+			<state id="low" />
+			<parents>flat</parents>
 			<probabilities>0.5 0.5</probabilities>
 		</cpt>
 	</nodes>
