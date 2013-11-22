@@ -55,8 +55,8 @@ void MS_Blueball_Network::createNetwork()
     DSL_idArray outcomes;
 
     int ellipse = theNet.AddNode(DSL_CPT, "ellipse");
-    outcomes.Add("high");
-    outcomes.Add("low");
+    outcomes.Add("HIGH");
+    outcomes.Add("LOW");
     theNet.GetNode(ellipse)->Definition()->SetNumberOfOutcomes(outcomes);
 
     int flat = theNet.AddNode(DSL_CPT, "flat");
@@ -208,7 +208,7 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
 
     DSL_sysCoordinates theFlatnessCoordinates(*theNet.GetNode(ellipse)->Value());
     DSL_idArray *theFlatnessNames = theNet.GetNode(ellipse)->Definition()->GetOutcomesNames();
-    theFlatnessCoordinates[0] = theFlatnessNames->FindPosition("high");
+    theFlatnessCoordinates[0] = theFlatnessNames->FindPosition("HIGH");
     theFlatnessCoordinates.GoToCurrentPosition();
     double ellipseNodeCpt = theFlatnessCoordinates.UncheckedValue();
     std::cout << " node cpt: " << ellipseNodeCpt << "\t";

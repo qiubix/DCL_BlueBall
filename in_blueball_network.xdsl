@@ -2,13 +2,13 @@
 <smile version="1.0" id="Network1" numsamples="1000" discsamples="10000">
 	<nodes>
 		<cpt id="ellipse">
-			<state id="high" />
-			<state id="low" />
+			<state id="HIGH" />
+			<state id="LOW" />
 			<probabilities>0.5 0.5</probabilities>
 		</cpt>
 		<cpt id="area">
-			<state id="high" />
-			<state id="low" />
+			<state id="HIGH" />
+			<state id="LOW" />
 			<probabilities>0.5 0.5</probabilities>
 		</cpt>
 		<cpt id="flat">
