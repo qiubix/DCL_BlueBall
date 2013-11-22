@@ -44,9 +44,9 @@ LOG(LTRACE) << "MS_Blueball_Network::initialize\n";
 
     registerStream("out_img", &out_img);
 
-    //theNet.ReadFile("/home/kkaterza/DCL/BlueBall/in_blueball_network.xdsl", DSL_XDSL_FORMAT);
+    theNet.ReadFile("/home/qiubix/DCL/BlueBall/in_blueball_network.xdsl", DSL_XDSL_FORMAT);
     //theNet.ReadFile("/home/kkaterza/DCL/BlueBall/flatness2.xdsl", DSL_XDSL_FORMAT);
-    createNetwork();
+    //createNetwork();
 
 }
 
