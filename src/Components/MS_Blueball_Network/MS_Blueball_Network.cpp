@@ -190,16 +190,23 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
 
     DSL_doubleArray theProbs;
     theProbs.SetSize(2);
-
+/*
     theProbs[0] = highFlatnessProbability;
     theProbs[1] = 1 - highFlatnessProbability;
-//    theNet.GetNode(ellipse) -> Definition() -> SetDefinition(theProbs);
-    theNet.GetNode(ellipse)->Value()->SetEvidence(highFlatnessProbability);
+    theNet.GetNode(ellipse) -> Definition() -> SetDefinition(theProbs);
 
 /*    theProbs[0] = highAreaProbability;
     theProbs[1] = 1 - highAreaProbability;
     theNet.GetNode(area) -> Definition() -> SetDefinition(theProbs);
 */
+
+    int flatnessEvidence;
+    if(highFlatnessProbability != 0) {
+        flatnessEvidence = 0;
+    } else {
+        flatnessEvidence = 1;
+    }
+    theNet.GetNode(ellipse)->Value()->SetEvidence(flatnessEvidence);
 
 
     theNet.UpdateBeliefs();
@@ -219,7 +226,7 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
     theCoordinates[0] = moderateIndex;
     theCoordinates.GoToCurrentPosition();
     double flatProbability = theCoordinates.UncheckedValue();
-    std::cout << " object is flat: " << flatProbability << "\n";
+    std::cout << " object is flat: " << flatProbability << "\t" << theNet.GetNode(flat)->Value()->IsPropagatedEvidence() << "\n";
 
 
 
