@@ -91,6 +91,8 @@ private:
 
     Base::DataStreamIn <Types::ImagePosition> in_imagePosition;
 
+    void createNetwork();
+
     void updateFeatureVector(Types::ImagePosition imagePosition);
 
     void calculateProbabilities();
