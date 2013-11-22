@@ -99,6 +99,8 @@ private:
 
     void updateNetwork(double* newProbabilities);
 
+//    void displayProbability(int, String, String);
+
 };
 
 }//: namespace MS_Blueball
