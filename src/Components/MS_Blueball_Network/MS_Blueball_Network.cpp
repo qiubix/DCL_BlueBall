@@ -196,7 +196,7 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
     theProbs[0] = highFlatnessProbability;
     theProbs[1] = 1 - highFlatnessProbability;
 //    theNet.GetNode(ellipse) -> Definition() -> SetDefinition(theProbs);
-    theNet.GetNode(ellipse)->Value()->SetEvidence(highFlatnessProbability);
+    theNet.GetNode(ellipse)->Value()->SetEvidence(0);
 
 /*    theProbs[0] = highAreaProbability;
     theProbs[1] = 1 - highAreaProbability;
@@ -233,7 +233,7 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
 }
 
 /*
-void MS_Blueball_Network::displayProbability(int node, String position, String message)
+void MS_Blueball_Network::displayProbability(int node, std::string position, std::string message)
 {
     DSL_sysCoordinates theFlatnessCoordinates(*theNet.GetNode(node)->Value());
     DSL_idArray *theFlatnessNames = theNet.GetNode(node)->Definition()->GetOutcomesNames();
@@ -241,7 +241,13 @@ void MS_Blueball_Network::displayProbability(int node, String position, String m
     theFlatnessCoordinates.GoToCurrentPosition();
     double nodeCpt = theFlatnessCoordinates.UncheckedValue();
     std::cout << " " << message << nodeCpt << "\t";
-}*/
+}
+
+int MS_Blueball_Network::getOutcomePosition(int node, std::string outcome)
+{
+    DSL_idArray *theNames = theNet.GetNode(node)->Definition()->GetOutcomeNames();
+    return theNames->FindPosition(outcome);
+*/
 
 }//: namespace MS_Blueball
 }//: namespace Processors
