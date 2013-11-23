@@ -74,9 +74,11 @@ void MS_Blueball_Network::createNetwork()
     theProbs[1] = 0.5;
     theNet.GetNode(ellipse)->Definition()->SetDefinition(theProbs);
 
-    theProbs[0] = 0.5;
-    theProbs[1] = 0.5;
-    theNet.GetNode(flat)->Definition()->SetDefinition(theProbs);
+    DSL_sysCoordinates theCoordinates(*theNet.GetNode(flat)->Definition());
+    do {
+      theCoordinates.UncheckedValue() = 0.5;
+    }
+    while (theCoordinates.Next() != DSL_OUT_OF_RANGE);
 
     theNet.WriteFile("newNet.xdsl", DSL_XDSL_FORMAT);
 
