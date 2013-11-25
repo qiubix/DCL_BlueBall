@@ -196,28 +196,61 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
 
     DSL_doubleArray theProbs;
     theProbs.SetSize(2);
-
+/*
     theProbs[0] = highFlatnessProbability;
     theProbs[1] = 1 - highFlatnessProbability;
-//            theNet.GetNode(ellipse) -> Definition() -> SetDefinition(theProbs);
+    theNet.GetNode(ellipse) -> Definition() -> SetDefinition(theProbs);
     if (highFlatnessProbability != 0) {
         theNet.GetNode(ellipse)->Value()->SetEvidence(0);
     }
     else {
         theNet.GetNode(ellipse)->Value()->ClearEvidence();
     }
+*/
 
 /*    theProbs[0] = highAreaProbability;
     theProbs[1] = 1 - highAreaProbability;
     theNet.GetNode(area) -> Definition() -> SetDefinition(theProbs);
 */
 
+    int flatnessEvidence;
+    if(highFlatnessProbability != 0) {
+        flatnessEvidence = 0;
+    } else {
+        flatnessEvidence = 1;
+    }
+    theNet.GetNode(ellipse)->Value()->SetEvidence(flatnessEvidence);
+
 
     theNet.UpdateBeliefs();
 
 
+<<<<<<< HEAD
     displayProbability(ellipse, "HIGH", "ellipse cpt: ");
     displayProbability(flat, "YES", "object is flat ");
+=======
+
+    DSL_sysCoordinates theFlatnessCoordinates(*theNet.GetNode(ellipse)->Value());
+    DSL_idArray *theFlatnessNames = theNet.GetNode(ellipse)->Definition()->GetOutcomesNames();
+    theFlatnessCoordinates[0] = theFlatnessNames->FindPosition("HIGH");
+    theFlatnessCoordinates.GoToCurrentPosition();
+    double ellipseNodeCpt = theFlatnessCoordinates.UncheckedValue();
+    std::cout << " node cpt: " << ellipseNodeCpt << "\t";
+
+    DSL_sysCoordinates theCoordinates(*theNet.GetNode(flat)->Value());
+    DSL_idArray *theNames = theNet.GetNode(flat)->Definition()->GetOutcomesNames();
+    int moderateIndex = theNames->FindPosition("YES");
+    theCoordinates[0] = moderateIndex;
+    theCoordinates.GoToCurrentPosition();
+    double flatProbability = theCoordinates.UncheckedValue();
+    std::cout << " object is flat: " << flatProbability << "\t" << theNet.GetNode(flat)->Value()->IsPropagatedEvidence() << "\n";
+
+
+
+//    displayProbability(ellipse, "high", "node cpt: ");
+//    displayProbability(flat, "YES", "object is flat: ");
+
+>>>>>>> c923f538c84bab3cdda5c07bc1ae25f9bcc3831c
 
     theNet.WriteFile("out_blueball_network.xdsl", DSL_XDSL_FORMAT);
 }
