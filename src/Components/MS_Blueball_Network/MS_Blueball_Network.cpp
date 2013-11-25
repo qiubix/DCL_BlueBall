@@ -45,7 +45,7 @@ LOG(LTRACE) << "MS_Blueball_Network::initialize\n";
 
     registerStream("out_img", &out_img);
 
-    theNet.ReadFile("/home/qiubix/DCL/BlueBall/in_blueball_network.xdsl", DSL_XDSL_FORMAT);
+    theNet.ReadFile("/home/kkaterza/DCL/BlueBall/in_blueball_network.xdsl", DSL_XDSL_FORMAT);
     //theNet.ReadFile("/home/kkaterza/DCL/BlueBall/flatness2.xdsl", DSL_XDSL_FORMAT);
     //createNetwork();
 
@@ -225,32 +225,9 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
     theNet.UpdateBeliefs();
 
 
-<<<<<<< HEAD
     displayProbability(ellipse, "HIGH", "ellipse cpt: ");
     displayProbability(flat, "YES", "object is flat ");
-=======
 
-    DSL_sysCoordinates theFlatnessCoordinates(*theNet.GetNode(ellipse)->Value());
-    DSL_idArray *theFlatnessNames = theNet.GetNode(ellipse)->Definition()->GetOutcomesNames();
-    theFlatnessCoordinates[0] = theFlatnessNames->FindPosition("HIGH");
-    theFlatnessCoordinates.GoToCurrentPosition();
-    double ellipseNodeCpt = theFlatnessCoordinates.UncheckedValue();
-    std::cout << " node cpt: " << ellipseNodeCpt << "\t";
-
-    DSL_sysCoordinates theCoordinates(*theNet.GetNode(flat)->Value());
-    DSL_idArray *theNames = theNet.GetNode(flat)->Definition()->GetOutcomesNames();
-    int moderateIndex = theNames->FindPosition("YES");
-    theCoordinates[0] = moderateIndex;
-    theCoordinates.GoToCurrentPosition();
-    double flatProbability = theCoordinates.UncheckedValue();
-    std::cout << " object is flat: " << flatProbability << "\t" << theNet.GetNode(flat)->Value()->IsPropagatedEvidence() << "\n";
-
-
-
-//    displayProbability(ellipse, "high", "node cpt: ");
-//    displayProbability(flat, "YES", "object is flat: ");
-
->>>>>>> c923f538c84bab3cdda5c07bc1ae25f9bcc3831c
 
     theNet.WriteFile("out_blueball_network.xdsl", DSL_XDSL_FORMAT);
 }
