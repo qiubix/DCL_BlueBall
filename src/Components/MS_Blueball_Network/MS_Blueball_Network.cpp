@@ -200,7 +200,6 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
     theProbs[0] = highFlatnessProbability;
     theProbs[1] = 1 - highFlatnessProbability;
 //            theNet.GetNode(ellipse) -> Definition() -> SetDefinition(theProbs);
-//    if (highFlatnessProbability != 0 && highFlatnessProbability != -NAN) {
     if (highFlatnessProbability != 0) {
         theNet.GetNode(ellipse)->Value()->SetEvidence(0);
     }
@@ -218,32 +217,7 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
 
 
     displayProbability(ellipse, "HIGH", "ellipse cpt: ");
-/*
-    DSL_sysCoordinates theFlatnessCoordinates(*theNet.GetNode(ellipse)->Value());
-    DSL_idArray *theFlatnessNames = theNet.GetNode(ellipse)->Definition()->GetOutcomesNames();
-    theFlatnessCoordinates[0] = theFlatnessNames->FindPosition("HIGH");
-    theFlatnessCoordinates.GoToCurrentPosition();
-    double ellipseNodeCpt = theFlatnessCoordinates.UncheckedValue();
-    std::cout << " node cpt: " << ellipseNodeCpt << "\t";
-*/
-//    DSL_node* flatNode = theNet.GetNode(flat);
-//    if (flatNode->Value()->IsValueValid() /* && flatNode->Value()->IsEvidence() */ ) {
-        displayProbability(flat, "YES", "object is flat ");
-        /*
-        DSL_sysCoordinates theCoordinates(*theNet.GetNode(flat)->Value());
-        DSL_idArray *theNames = theNet.GetNode(flat)->Definition()->GetOutcomesNames();
-        int moderateIndex = theNames->FindPosition("YES");
-        theCoordinates[0] = moderateIndex;
-        theCoordinates.GoToCurrentPosition();
-        double flatProbability = theCoordinates.UncheckedValue();
-        std::cout << " object is flat: " << flatProbability << "\n";
-        */
-//    }
-
-
-//    displayProbability(ellipse, "high", "node cpt: ");
-//    displayProbability(flat, "YES", "object is flat: ");
-
+    displayProbability(flat, "YES", "object is flat ");
 
     theNet.WriteFile("out_blueball_network.xdsl", DSL_XDSL_FORMAT);
 }
