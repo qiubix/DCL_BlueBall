@@ -181,9 +181,7 @@ void MS_Blueball_Network::calculateProbabilities()
 
 void MS_Blueball_Network::updateNetwork(double* newProbabilities)
 {
-    theNet.SetDefaultBNAlgorithm(DSL_ALG_BN_LAURITZEN);
     theNet.UpdateBeliefs();
-    //theNet.WriteFile("newNet.xdsl", DSL_XDSL_FORMAT);
 
     //FIXME: change names
     double highFlatnessProbability = newProbabilities[0];
