@@ -99,9 +99,9 @@ private:
 
     void updateNetwork(double* newProbabilities);
 
-//    void displayProbability(int, std::string, std::string);
+    void displayProbability(int, std::string, std::string);
 
-//    int getOutcomePosition(int node, std::string outcome);
+    int getOutcomePosition(int node, std::string outcome);
 
 };
 
