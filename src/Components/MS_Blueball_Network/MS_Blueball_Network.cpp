@@ -88,19 +88,13 @@ void MS_Blueball_Network::createNetwork()
 
     DSL_doubleArray theProbs;
     theProbs.SetSize(2);
-
     theProbs[0] = 0.5;
     theProbs[1] = 0.5;
+
     theNet.GetNode(ellipse)->Definition()->SetDefinition(theProbs);
     theNet.GetNode(area)->Definition()->SetDefinition(theProbs);
 
     DSL_sysCoordinates theCoordinates(*theNet.GetNode(flat)->Definition());
-/*
-    do {
-      theCoordinates.UncheckedValue() = 0.5;
-    }
-    while (theCoordinates.Next() != DSL_OUT_OF_RANGE);
-*/
     theCoordinates.UncheckedValue() = 0.95;
     theCoordinates.Next();
     theCoordinates.UncheckedValue() = 0.05;
