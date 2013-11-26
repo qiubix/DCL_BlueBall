@@ -28,7 +28,7 @@ MS_Blueball_Network::~MS_Blueball_Network()
 void MS_Blueball_Network::prepareInterface()
 {
 
-LOG(LTRACE) << "MS_Blueball_Network::initialize\n";
+    LOG(LTRACE) << "MS_Blueball_Network::initialize\n";
 
     // Register data streams, events and event handlers HERE!
 

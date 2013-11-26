@@ -42,10 +42,16 @@ protected:
 
 	DSL_network theNet;
 
-	// Input data stream
+    vector <vector <double> > features;
+
+    double newProbabilities[2];
+
+    // Input data stream
+    Base::DataStreamIn <Types::ImagePosition> in_imagePosition;
     //Base::DataStreamIn <Mat> in_img;
 
 	// Output data stream
+    Base::DataStreamOut < vector <double> > out_probabilities;
     //Base::DataStreamOut <Mat> out_img;
 
 	// Event handler function.	
@@ -84,14 +90,6 @@ protected:
 	bool onStop();
 
 private:
-
-    vector <vector <double> > features;
-
-    double newProbabilities[2];
-
-    Base::DataStreamIn <Types::ImagePosition> in_imagePosition;
-
-    Base::DataStreamOut < vector <double> > out_probabilities;
 
     void initNetwork();
 
