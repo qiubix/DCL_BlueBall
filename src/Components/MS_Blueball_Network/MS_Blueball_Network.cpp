@@ -222,7 +222,6 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
 {
     theNet.UpdateBeliefs();
 
-    //FIXME: change names
     double highFlatnessProbability = newProbabilities[0];
     double highAreaProbability = newProbabilities[1];
 
@@ -256,11 +255,6 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
 }
 
 
-void MS_Blueball_Network::displayProbability(std::string message, double probability)
-{
-    std::cout << " " << message << ": " << probability << "\t";
-}
-
 int MS_Blueball_Network::getOutcomePosition(int node, std::string outcome)
 {
     DSL_idArray *theNames = theNet.GetNode(node)->Definition()->GetOutcomesNames();
@@ -272,13 +266,13 @@ double MS_Blueball_Network::getOutcomeProbability(int node, std::string outcome)
     DSL_sysCoordinates theFlatnessCoordinates(*theNet.GetNode(node)->Value());
     theFlatnessCoordinates[0] = getOutcomePosition(node, outcome);
     theFlatnessCoordinates.GoToCurrentPosition();
-    double nodeCpt = theFlatnessCoordinates.UncheckedValue();
-    return nodeCpt;
+    return theFlatnessCoordinates.UncheckedValue();
 }
 
 void MS_Blueball_Network::computeDecision()
 {
     vector <double> resultingProbabilities;
+
     int ellipse = theNet.FindNode("ellipse");
     int area = theNet.FindNode("area");
     int flat = theNet.FindNode("flat");
@@ -296,6 +290,11 @@ void MS_Blueball_Network::computeDecision()
     resultingProbabilities.push_back(flatProbability);
     out_probabilities.write(resultingProbabilities);
 
+}
+
+void MS_Blueball_Network::displayProbability(std::string message, double probability)
+{
+    std::cout << " " << message << ": " << probability << "\t";
 }
 
 }//: namespace MS_Blueball
