@@ -109,6 +109,8 @@ private:
 
     double getOutcomeProbability(int node, std::string outcome);
 
+    void computeDecision();
+
 };
 
 }//: namespace MS_Blueball

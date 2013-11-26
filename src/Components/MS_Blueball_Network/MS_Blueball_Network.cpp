@@ -170,8 +170,7 @@ void MS_Blueball_Network::onNewImage()
 
     updateNetwork(newProbabilities);
 
-    //TODO: Compute decision
-
+    computeDecision();
 
     //out_img.write(img);
 
@@ -189,8 +188,8 @@ void MS_Blueball_Network::updateFeatureVector(Types::ImagePosition imagePosition
     double newFlatness = imagePosition.elements[3];
     double newArea = 1; //imagePosition.elements[4];
 
-    //std::cout << "Diameter: " << newDiameter << "\n";
-    std::cout << "\nFlatness: " << newFlatness << "\t";
+    std::cout << "\nDiameter: " << newDiameter << "\t";
+    std::cout << "Flatness: " << newFlatness << "\t";
     std::cout << "Area: " << newArea << "\t";
 
     features[0].push_back(newFlatness);
@@ -225,7 +224,6 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
     //FIXME: change names
     double highFlatnessProbability = newProbabilities[0];
     double highAreaProbability = newProbabilities[1];
-    vector <double> resultingProbabilities;
 
     std::cout << " High flatness prob: " << highFlatnessProbability << "\t";
     int ellipse = theNet.FindNode("ellipse");
@@ -250,19 +248,7 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
     theNet.GetNode(area) -> Definition() -> SetDefinition(theProbs);
 */
 
-
     theNet.UpdateBeliefs();
-
-
-    double ellipseProbability = getOutcomeProbability(ellipse, "HIGH");
-    double flatProbability = getOutcomeProbability(flat, "YES");
-    displayProbability(ellipseProbability, "ellipse cpt");
-    displayProbability(flatProbability, "object is flat");
-
-    theNet.WriteFile("out_blueball_network.xdsl", DSL_XDSL_FORMAT);
-
-    resultingProbabilities.push_back(flatProbability);
-    out_probabilities.write(resultingProbabilities);
 }
 
 
@@ -284,6 +270,27 @@ double MS_Blueball_Network::getOutcomeProbability(int node, std::string outcome)
     theFlatnessCoordinates.GoToCurrentPosition();
     double nodeCpt = theFlatnessCoordinates.UncheckedValue();
     return nodeCpt;
+}
+
+void MS_Blueball_Network::computeDecision()
+{
+    vector <double> resultingProbabilities;
+    int ellipse = theNet.FindNode("ellipse");
+    int area = theNet.FindNode("area");
+    int flat = theNet.FindNode("flat");
+
+    double ellipseProbability = getOutcomeProbability(ellipse, "HIGH");
+    double areaProbability = getOutcomeProbability(area, "HIGH");
+    double flatProbability = getOutcomeProbability(flat, "YES");
+    displayProbability(ellipseProbability, "ellipse cpt");
+    displayProbability(areaProbability, "area cpt");
+    displayProbability(flatProbability, "object is flat");
+
+    theNet.WriteFile("out_blueball_network.xdsl", DSL_XDSL_FORMAT);
+
+    resultingProbabilities.push_back(flatProbability);
+    out_probabilities.write(resultingProbabilities);
+
 }
 
 }//: namespace MS_Blueball
