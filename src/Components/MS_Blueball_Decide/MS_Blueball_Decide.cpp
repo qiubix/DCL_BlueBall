@@ -154,7 +154,7 @@ void MS_Blueball_Decide::onStep()
         imagePosition.elements[3] = wsp_elips;
 
         // Area of an object
-        imagePosition.elements[4] = area;
+        //imagePosition.elements[4] = area;
 
         // Write to stream.
         out_imagePosition.write(imagePosition);

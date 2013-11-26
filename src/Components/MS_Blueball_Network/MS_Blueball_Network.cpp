@@ -37,18 +37,27 @@ LOG(LTRACE) << "MS_Blueball_Network::initialize\n";
     registerHandler("onNewImage", &h_onNewImage);
 
     // Register data streams.
-    registerStream("in_img", &in_img);
+    //registerStream("in_img", &in_img);
     registerStream("in_imagePosition", &in_imagePosition);
 
     //addDependency("onNewImage", &in_img);
     addDependency("onNewImage", &in_imagePosition);
 
-    registerStream("out_img", &out_img);
+    //registerStream("out_img", &out_img);
+    registerStream("out_probabilities", &out_probabilities);
 
     theNet.ReadFile("/home/qiubix/DCL/BlueBall/in_blueball_network.xdsl", DSL_XDSL_FORMAT);
     //theNet.ReadFile("/home/kkaterza/DCL/BlueBall/flatness2.xdsl", DSL_XDSL_FORMAT);
     //createNetwork();
+    //initNetwork();
 
+}
+
+void MS_Blueball_Network::initNetwork()
+{
+    if (!theNet.ReadFile("/home/qiubix/DCL/BlueBall/in_blueball_network.xdsl", DSL_XDSL_FORMAT)) {
+        createNetwork();
+    }
 }
 
 void MS_Blueball_Network::createNetwork()
@@ -60,13 +69,20 @@ void MS_Blueball_Network::createNetwork()
     outcomes.Add("LOW");
     theNet.GetNode(ellipse)->Definition()->SetNumberOfOutcomes(outcomes);
 
+    int area = theNet.AddNode(DSL_CPT, "area");
+    outcomes.Flush();
+    outcomes.Add("HIGH");
+    outcomes.Add("LOW");
+    theNet.GetNode(area)->Definition()->SetNumberOfOutcomes(outcomes);
+
     int flat = theNet.AddNode(DSL_CPT, "flat");
     outcomes.Flush();
     outcomes.Add("YES");
     outcomes.Add("NO");
     theNet.GetNode(flat)->Definition()->SetNumberOfOutcomes(outcomes);
 
-    theNet.AddArc(ellipse,flat);
+    theNet.AddArc(ellipse, flat);
+    theNet.AddArc(area, flat);
 
     DSL_doubleArray theProbs;
     theProbs.SetSize(2);
@@ -74,12 +90,31 @@ void MS_Blueball_Network::createNetwork()
     theProbs[0] = 0.5;
     theProbs[1] = 0.5;
     theNet.GetNode(ellipse)->Definition()->SetDefinition(theProbs);
+    theNet.GetNode(area)->Definition()->SetDefinition(theProbs);
 
     DSL_sysCoordinates theCoordinates(*theNet.GetNode(flat)->Definition());
+/*
     do {
       theCoordinates.UncheckedValue() = 0.5;
     }
     while (theCoordinates.Next() != DSL_OUT_OF_RANGE);
+*/
+    theCoordinates.UncheckedValue() = 0.95;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.05;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.65;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.35;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.6;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.4;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.01;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.99;
+    theCoordinates.Next();
 
     theNet.ClearAllEvidence();
 
@@ -148,11 +183,11 @@ void MS_Blueball_Network::updateFeatureVector(Types::ImagePosition imagePosition
     }
     double newDiameter = imagePosition.elements[2];
     double newFlatness = imagePosition.elements[3];
-    double newArea = imagePosition.elements[4];
+    double newArea = 1; //imagePosition.elements[4];
 
     //std::cout << "Diameter: " << newDiameter << "\n";
     std::cout << "\nFlatness: " << newFlatness << "\t";
-    //std::cout << "Area: " << newArea << "\n";
+    std::cout << "Area: " << newArea << "\t";
 
     features[0].push_back(newFlatness);
     features[1].push_back(newArea);
