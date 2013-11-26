@@ -37,13 +37,11 @@ LOG(LTRACE) << "MS_Blueball_Network::initialize\n";
     registerHandler("onNewImage", &h_onNewImage);
 
     // Register data streams.
-    //registerStream("in_img", &in_img);
     registerStream("in_imagePosition", &in_imagePosition);
 
     //addDependency("onNewImage", &in_img);
     addDependency("onNewImage", &in_imagePosition);
 
-    //registerStream("out_img", &out_img);
     registerStream("out_probabilities", &out_probabilities);
 
     initNetwork();
@@ -157,23 +155,15 @@ bool MS_Blueball_Network::onStart()
 
 void MS_Blueball_Network::onNewImage()
 {
-
-    //Mat img = in_img.read();
-
     theNet.SetDefaultBNAlgorithm(DSL_ALG_BN_LAURITZEN);
 
     Types::ImagePosition imagePosition = in_imagePosition.read();
-
     updateFeatureVector(imagePosition);
 
     calculateProbabilities();
-
     updateNetwork(newProbabilities);
 
     computeDecision();
-
-    //out_img.write(img);
-
 }
 
 void MS_Blueball_Network::updateFeatureVector(Types::ImagePosition imagePosition)
