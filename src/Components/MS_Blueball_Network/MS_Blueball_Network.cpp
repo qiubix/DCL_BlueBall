@@ -214,13 +214,15 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
     int area = theNet.FindNode("area");
     int flat = theNet.FindNode("flat");
 
-    /*
+    theNet.GetNode(ellipse)->Value()->ClearEvidence();
+    theNet.GetNode(area)->Value()->ClearEvidence();
+
     DSL_doubleArray theProbs;
     theProbs.SetSize(2);
     theProbs[0] = highFlatnessProbability;
     theProbs[1] = 1 - highFlatnessProbability;
     theNet.GetNode(ellipse) -> Definition() -> SetDefinition(theProbs);
-    */
+
 
     /*
     theProbs[0] = highAreaProbability;
@@ -228,12 +230,11 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
     theNet.GetNode(area) -> Definition() -> SetDefinition(theProbs);
     */
 
+    /*
     if (highFlatnessProbability != 0) {
         theNet.GetNode(ellipse)->Value()->SetEvidence(0);
     }
-    else {
-        theNet.GetNode(ellipse)->Value()->ClearEvidence();
-    }
+    */
 
     theNet.UpdateBeliefs();
 }
