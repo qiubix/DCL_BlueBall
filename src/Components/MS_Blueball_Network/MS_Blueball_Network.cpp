@@ -28,7 +28,7 @@ MS_Blueball_Network::~MS_Blueball_Network()
 void MS_Blueball_Network::prepareInterface()
 {
 
-LOG(LTRACE) << "MS_Blueball_Network::initialize\n";
+    LOG(LTRACE) << "MS_Blueball_Network::initialize\n";
 
     // Register data streams, events and event handlers HERE!
 
@@ -37,18 +37,29 @@ LOG(LTRACE) << "MS_Blueball_Network::initialize\n";
     registerHandler("onNewImage", &h_onNewImage);
 
     // Register data streams.
-    registerStream("in_img", &in_img);
     registerStream("in_imagePosition", &in_imagePosition);
 
     //addDependency("onNewImage", &in_img);
     addDependency("onNewImage", &in_imagePosition);
 
-    registerStream("out_img", &out_img);
+    registerStream("out_probabilities", &out_probabilities);
 
-    theNet.ReadFile("/home/kkaterza/DCL/BlueBall/in_blueball_network.xdsl", DSL_XDSL_FORMAT);
-    //theNet.ReadFile("/home/kkaterza/DCL/BlueBall/flatness2.xdsl", DSL_XDSL_FORMAT);
+    initNetwork();
+
+}
+
+void MS_Blueball_Network::initNetwork()
+{
+    //int result = theNet.ReadFile("/home/qiubix/DCL/BlueBall/in_blueball_network.xdsl", DSL_XDSL_FORMAT);
+    int result = theNet.ReadFile("/home/kkaterza/DCL/BlueBall/in_blueball_network.xdsl", DSL_XDSL_FORMAT);
     //createNetwork();
+    LOG(LWARNING) << "Reading network file: " << result;
 
+    /*
+    if (!theNet.ReadFile("/home/qiubix/DCL/BlueBall/in_blueball_network.xdsl", DSL_XDSL_FORMAT)) {
+        createNetwork();
+    }
+    */
 }
 
 void MS_Blueball_Network::createNetwork()
@@ -60,26 +71,46 @@ void MS_Blueball_Network::createNetwork()
     outcomes.Add("LOW");
     theNet.GetNode(ellipse)->Definition()->SetNumberOfOutcomes(outcomes);
 
+    int area = theNet.AddNode(DSL_CPT, "area");
+    outcomes.Flush();
+    outcomes.Add("HIGH");
+    outcomes.Add("LOW");
+    theNet.GetNode(area)->Definition()->SetNumberOfOutcomes(outcomes);
+
     int flat = theNet.AddNode(DSL_CPT, "flat");
     outcomes.Flush();
     outcomes.Add("YES");
     outcomes.Add("NO");
     theNet.GetNode(flat)->Definition()->SetNumberOfOutcomes(outcomes);
 
-    theNet.AddArc(ellipse,flat);
+    theNet.AddArc(ellipse, flat);
+    theNet.AddArc(area, flat);
 
     DSL_doubleArray theProbs;
     theProbs.SetSize(2);
-
     theProbs[0] = 0.5;
     theProbs[1] = 0.5;
+
     theNet.GetNode(ellipse)->Definition()->SetDefinition(theProbs);
+    theNet.GetNode(area)->Definition()->SetDefinition(theProbs);
 
     DSL_sysCoordinates theCoordinates(*theNet.GetNode(flat)->Definition());
-    do {
-      theCoordinates.UncheckedValue() = 0.5;
-    }
-    while (theCoordinates.Next() != DSL_OUT_OF_RANGE);
+    theCoordinates.UncheckedValue() = 0.95;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.05;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.65;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.35;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.6;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.4;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.01;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.99;
+    theCoordinates.Next();
 
     theNet.ClearAllEvidence();
 
@@ -118,24 +149,16 @@ bool MS_Blueball_Network::onStart()
 
 void MS_Blueball_Network::onNewImage()
 {
-
-    //Mat img = in_img.read();
-
+    std::cout << "\n";
     theNet.SetDefaultBNAlgorithm(DSL_ALG_BN_LAURITZEN);
 
     Types::ImagePosition imagePosition = in_imagePosition.read();
-
     updateFeatureVector(imagePosition);
 
     calculateProbabilities();
-
     updateNetwork(newProbabilities);
 
-    //TODO: Compute decision
-
-
-    //out_img.write(img);
-
+    computeDecision();
 }
 
 void MS_Blueball_Network::updateFeatureVector(Types::ImagePosition imagePosition)
@@ -146,13 +169,13 @@ void MS_Blueball_Network::updateFeatureVector(Types::ImagePosition imagePosition
         features.push_back(flatness);
         features.push_back(area);
     }
-    double newDiameter = imagePosition.elements[2];
+    //double newDiameter = imagePosition.elements[2];
     double newFlatness = imagePosition.elements[3];
-    double newArea = imagePosition.elements[4];
+    double newArea = imagePosition.elements[2];
 
-    //std::cout << "Diameter: " << newDiameter << "\n";
-    std::cout << "\nFlatness: " << newFlatness << "\t";
-    //std::cout << "Area: " << newArea << "\n";
+    //std::cout << "Diameter: " << newDiameter << "\t";
+    std::cout << "Flatness: " << newFlatness << "\t";
+    std::cout << "Area: " << newArea << "\t";
 
     features[0].push_back(newFlatness);
     features[1].push_back(newArea);
@@ -162,6 +185,7 @@ void MS_Blueball_Network::calculateProbabilities()
 {
     double newFlatnessProbability;
     double newAreaProbability;
+
     vector <double> flatness = features[0];
     vector <double> area = features[1];
     double currentFlatness = flatness.back();
@@ -181,71 +205,82 @@ void MS_Blueball_Network::calculateProbabilities()
 
 void MS_Blueball_Network::updateNetwork(double* newProbabilities)
 {
-    theNet.SetDefaultBNAlgorithm(DSL_ALG_BN_LAURITZEN);
     theNet.UpdateBeliefs();
-    //theNet.WriteFile("newNet.xdsl", DSL_XDSL_FORMAT);
 
-    //FIXME: change names
     double highFlatnessProbability = newProbabilities[0];
     double highAreaProbability = newProbabilities[1];
 
-    std::cout << " High flatness prob: " << highFlatnessProbability << "\t";
+    //std::cout << " High flatness prob: " << highFlatnessProbability << "\t";
     int ellipse = theNet.FindNode("ellipse");
     int area = theNet.FindNode("area");
     int flat = theNet.FindNode("flat");
 
+    theNet.GetNode(ellipse)->Value()->ClearEvidence();
+    theNet.GetNode(area)->Value()->ClearEvidence();
+
     DSL_doubleArray theProbs;
     theProbs.SetSize(2);
-/*
     theProbs[0] = highFlatnessProbability;
     theProbs[1] = 1 - highFlatnessProbability;
     theNet.GetNode(ellipse) -> Definition() -> SetDefinition(theProbs);
+
+
+    /*
+    theProbs[0] = highAreaProbability;
+    theProbs[1] = 1 - highAreaProbability;
+    theNet.GetNode(area) -> Definition() -> SetDefinition(theProbs);
+    */
+
+    /*
     if (highFlatnessProbability != 0) {
         theNet.GetNode(ellipse)->Value()->SetEvidence(0);
     }
-    else {
-        theNet.GetNode(ellipse)->Value()->ClearEvidence();
-    }
-*/
-
-/*    theProbs[0] = highAreaProbability;
-    theProbs[1] = 1 - highAreaProbability;
-    theNet.GetNode(area) -> Definition() -> SetDefinition(theProbs);
-*/
-
-    int flatnessEvidence;
-    if(highFlatnessProbability != 0) {
-        flatnessEvidence = 0;
-    } else {
-        flatnessEvidence = 1;
-    }
-    theNet.GetNode(ellipse)->Value()->SetEvidence(flatnessEvidence);
-
+    */
 
     theNet.UpdateBeliefs();
-
-
-    displayProbability(ellipse, "HIGH", "ellipse cpt: ");
-    displayProbability(flat, "YES", "object is flat ");
-
-
-    theNet.WriteFile("out_blueball_network.xdsl", DSL_XDSL_FORMAT);
 }
 
-
-void MS_Blueball_Network::displayProbability(int node, std::string outcome, std::string message)
-{
-    DSL_sysCoordinates theFlatnessCoordinates(*theNet.GetNode(node)->Value());
-    theFlatnessCoordinates[0] = getOutcomePosition(node, outcome);
-    theFlatnessCoordinates.GoToCurrentPosition();
-    double nodeCpt = theFlatnessCoordinates.UncheckedValue();
-    std::cout << " " << message << nodeCpt << "\t";
-}
 
 int MS_Blueball_Network::getOutcomePosition(int node, std::string outcome)
 {
     DSL_idArray *theNames = theNet.GetNode(node)->Definition()->GetOutcomesNames();
     return theNames->FindPosition(outcome.c_str());
+}
+
+double MS_Blueball_Network::getOutcomeProbability(int node, std::string outcome)
+{
+    DSL_sysCoordinates theFlatnessCoordinates(*theNet.GetNode(node)->Value());
+    theFlatnessCoordinates[0] = getOutcomePosition(node, outcome);
+    theFlatnessCoordinates.GoToCurrentPosition();
+    return theFlatnessCoordinates.UncheckedValue();
+}
+
+void MS_Blueball_Network::computeDecision()
+{
+    vector <double> resultingProbabilities;
+
+    int ellipse = theNet.FindNode("ellipse");
+    int area = theNet.FindNode("area");
+    int flat = theNet.FindNode("flat");
+
+    double ellipseProbability = getOutcomeProbability(ellipse, "HIGH");
+    double areaProbability = getOutcomeProbability(area, "HIGH");
+    double flatProbability = getOutcomeProbability(flat, "YES");
+
+    displayProbability("ellipse cpt", ellipseProbability);
+    displayProbability("area cpt", areaProbability);
+    displayProbability("object is flat", flatProbability);
+
+    theNet.WriteFile("out_blueball_network.xdsl", DSL_XDSL_FORMAT);
+
+    resultingProbabilities.push_back(flatProbability);
+    out_probabilities.write(resultingProbabilities);
+
+}
+
+void MS_Blueball_Network::displayProbability(std::string message, double probability)
+{
+    std::cout << " " << message << ": " << probability << "\t";
 }
 
 }//: namespace MS_Blueball

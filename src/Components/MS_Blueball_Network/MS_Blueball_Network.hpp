@@ -42,11 +42,17 @@ protected:
 
 	DSL_network theNet;
 
-	// Input data stream
-	Base::DataStreamIn <Mat> in_img;
+    vector <vector <double> > features;
+
+    double newProbabilities[2];
+
+    // Input data stream
+    Base::DataStreamIn <Types::ImagePosition> in_imagePosition;
+    //Base::DataStreamIn <Mat> in_img;
 
 	// Output data stream
-	Base::DataStreamOut <Mat> out_img;
+    Base::DataStreamOut < vector <double> > out_probabilities;
+    //Base::DataStreamOut <Mat> out_img;
 
 	// Event handler function.	
 	void onNewImage();
@@ -85,11 +91,7 @@ protected:
 
 private:
 
-    vector <vector <double> > features;
-
-    double newProbabilities[2];
-
-    Base::DataStreamIn <Types::ImagePosition> in_imagePosition;
+    void initNetwork();
 
     void createNetwork();
 
@@ -99,9 +101,13 @@ private:
 
     void updateNetwork(double* newProbabilities);
 
-    void displayProbability(int, std::string, std::string);
-
     int getOutcomePosition(int node, std::string outcome);
+
+    double getOutcomeProbability(int node, std::string outcome);
+
+    void computeDecision();
+
+    void displayProbability(std::string message, double probability);
 
 };
 
