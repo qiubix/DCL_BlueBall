@@ -149,6 +149,7 @@ bool MS_Blueball_Network::onStart()
 
 void MS_Blueball_Network::onNewImage()
 {
+    std::cout << "\n";
     theNet.SetDefaultBNAlgorithm(DSL_ALG_BN_LAURITZEN);
 
     Types::ImagePosition imagePosition = in_imagePosition.read();
@@ -168,11 +169,11 @@ void MS_Blueball_Network::updateFeatureVector(Types::ImagePosition imagePosition
         features.push_back(flatness);
         features.push_back(area);
     }
-    double newDiameter = imagePosition.elements[2];
+    //double newDiameter = imagePosition.elements[2];
     double newFlatness = imagePosition.elements[3];
-    double newArea = 1; //imagePosition.elements[4];
+    double newArea = imagePosition.elements[2];
 
-    std::cout << "\nDiameter: " << newDiameter << "\t";
+    //std::cout << "Diameter: " << newDiameter << "\t";
     std::cout << "Flatness: " << newFlatness << "\t";
     std::cout << "Area: " << newArea << "\t";
 
