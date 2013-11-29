@@ -54,12 +54,6 @@ void MS_Blueball_Network::initNetwork()
     //theNet.ReadFile("/home/kkaterza/DCL/BlueBall/in_blueball_network.xdsl", DSL_XDSL_FORMAT);
     //createNetwork();
     LOG(LWARNING) << "Reading network file: " << result;
-
-    /*
-    if (!theNet.ReadFile("/home/qiubix/DCL/BlueBall/in_blueball_network.xdsl", DSL_XDSL_FORMAT)) {
-        createNetwork();
-    }
-    */
 }
 
 void MS_Blueball_Network::createNetwork()
