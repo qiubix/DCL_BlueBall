@@ -212,12 +212,15 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
     theNet.GetNode(ellipse)->Value()->ClearEvidence();
     theNet.GetNode(area)->Value()->ClearEvidence();
 
+    //FIXME: proper way of updating probabilities
+
     DSL_doubleArray theProbs;
     theProbs.SetSize(2);
     theProbs[0] = highFlatnessProbability;
     theProbs[1] = 1 - highFlatnessProbability;
     theNet.GetNode(ellipse) -> Definition() -> SetDefinition(theProbs);
 
+    //TODO: update area node probability
 
     /*
     theProbs[0] = highAreaProbability;
@@ -264,6 +267,8 @@ void MS_Blueball_Network::computeDecision()
     displayProbability("ellipse cpt", ellipseProbability);
     displayProbability("area cpt", areaProbability);
     displayProbability("object is flat", flatProbability);
+
+    //TODO: proper way of displaying results, passing comptuted probabilities on
 
     theNet.WriteFile("out_blueball_network.xdsl", DSL_XDSL_FORMAT);
 
