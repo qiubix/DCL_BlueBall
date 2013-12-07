@@ -77,8 +77,12 @@ void MS_Blueball_Network::createNetwork()
     outcomes.Add("NO");
     theNet.GetNode(flat)->Definition()->SetNumberOfOutcomes(outcomes);
 
+    //TODO: Add nonflat node
+
     theNet.AddArc(ellipse, flat);
     theNet.AddArc(area, flat);
+
+    //TODO: Add arcs to nonflat node
 
     DSL_doubleArray theProbs;
     theProbs.SetSize(2);
@@ -105,6 +109,8 @@ void MS_Blueball_Network::createNetwork()
     theCoordinates.Next();
     theCoordinates.UncheckedValue() = 0.99;
     theCoordinates.Next();
+
+    //TODO: add coordinates for nonflat node
 
     theNet.ClearAllEvidence();
 
