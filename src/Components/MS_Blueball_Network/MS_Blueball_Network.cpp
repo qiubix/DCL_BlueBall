@@ -78,11 +78,18 @@ void MS_Blueball_Network::createNetwork()
     theNet.GetNode(flat)->Definition()->SetNumberOfOutcomes(outcomes);
 
     //TODO: Add nonflat node
+    int nonflat = theNet.AddNode(DSL_CPT, "nonflat");
+    outcomes.Flush();
+    outcomes.Add("YES");
+    outcomes.Add("NO");
+    theNet.GetNode(nonflat)->Definition()->SetNumberOfOutcomes(outcomes);
 
     theNet.AddArc(ellipse, flat);
     theNet.AddArc(area, flat);
 
     //TODO: Add arcs to nonflat node
+    theNet.AddArc(ellipse, nonflat);
+    theNet.AddArc(area, nonflat);
 
     DSL_doubleArray theProbs;
     theProbs.SetSize(2);
@@ -111,6 +118,25 @@ void MS_Blueball_Network::createNetwork()
     theCoordinates.Next();
 
     //TODO: add coordinates for nonflat node
+    //DSL_sysCoordinates theCoordinates(*theNet.GetNode(nonflat)->Definition());
+    theCoordinates.LinkTo(*theNet.GetNode(nonflat)->Value());
+    theCoordinates.GoFirst();
+    theCoordinates.UncheckedValue() = 0.05;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.95;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.35;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.65;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.4;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.6;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.99;
+    theCoordinates.Next();
+    theCoordinates.UncheckedValue() = 0.01;
+    theCoordinates.Next();
 
     theNet.ClearAllEvidence();
 
