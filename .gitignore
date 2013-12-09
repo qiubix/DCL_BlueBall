@@ -1,0 +1,5 @@
+build/
+dist/
+*user
+data/
+out_blueball_network*
