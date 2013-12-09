@@ -54,12 +54,6 @@ void MS_Blueball_Network::initNetwork()
     int result = theNet.ReadFile("/home/kkaterza/DCL/BlueBall/in_blueball_network.xdsl", DSL_XDSL_FORMAT);
     //createNetwork();
     LOG(LWARNING) << "Reading network file: " << result;
-
-    /*
-    if (!theNet.ReadFile("/home/qiubix/DCL/BlueBall/in_blueball_network.xdsl", DSL_XDSL_FORMAT)) {
-        createNetwork();
-    }
-    */
 }
 
 void MS_Blueball_Network::createNetwork()
@@ -83,8 +77,12 @@ void MS_Blueball_Network::createNetwork()
     outcomes.Add("NO");
     theNet.GetNode(flat)->Definition()->SetNumberOfOutcomes(outcomes);
 
+    //TODO: Add nonflat node
+
     theNet.AddArc(ellipse, flat);
     theNet.AddArc(area, flat);
+
+    //TODO: Add arcs to nonflat node
 
     DSL_doubleArray theProbs;
     theProbs.SetSize(2);
@@ -111,6 +109,8 @@ void MS_Blueball_Network::createNetwork()
     theCoordinates.Next();
     theCoordinates.UncheckedValue() = 0.99;
     theCoordinates.Next();
+
+    //TODO: add coordinates for nonflat node
 
     theNet.ClearAllEvidence();
 
@@ -218,12 +218,15 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
     theNet.GetNode(ellipse)->Value()->ClearEvidence();
     theNet.GetNode(area)->Value()->ClearEvidence();
 
+    //FIXME: proper way of updating probabilities
+
     DSL_doubleArray theProbs;
     theProbs.SetSize(2);
     theProbs[0] = highFlatnessProbability;
     theProbs[1] = 1 - highFlatnessProbability;
     theNet.GetNode(ellipse) -> Definition() -> SetDefinition(theProbs);
 
+    //TODO: update area node probability
 
     /*
     theProbs[0] = highAreaProbability;
@@ -270,6 +273,8 @@ void MS_Blueball_Network::computeDecision()
     displayProbability("ellipse cpt", ellipseProbability);
     displayProbability("area cpt", areaProbability);
     displayProbability("object is flat", flatProbability);
+
+    //TODO: proper way of displaying results, passing comptuted probabilities on
 
     theNet.WriteFile("out_blueball_network.xdsl", DSL_XDSL_FORMAT);
 
