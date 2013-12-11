@@ -228,7 +228,12 @@ void MS_Blueball_Network::calculateProbabilities()
         newFlatnessProbability = 1 - (1-currentFlatness)/0.2;
     }
     //TODO: compute probability for area
-    newAreaProbability = 0.5;
+    //newAreaProbability = 0.5;
+    double maxArea = currentArea;
+    if(area.size() > 1) {
+        maxArea = *std::max_element(area.begin(), area.end());
+        newAreaProbability = 1 - (maxArea - currentArea)/maxArea;
+    }
 
     newProbabilities[0] = newFlatnessProbability;
     newProbabilities[1] = newAreaProbability;
@@ -259,11 +264,11 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
 
     //TODO: update area node probability
 
-    /*
+
     theProbs[0] = highAreaProbability;
     theProbs[1] = 1 - highAreaProbability;
     theNet.GetNode(area) -> Definition() -> SetDefinition(theProbs);
-    */
+
 
 
     if (highFlatnessProbability > 0.9) {

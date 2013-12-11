@@ -156,6 +156,7 @@ void MS_Blueball_Decide::onStep()
         //std::cout << a/maxPixels << "\t" << b/maxPixels << "\t" << area << std::endl;
 
         Types::ImagePosition imagePosition;
+        //std::cout << "\n ================== New image ===================== \n";
         //std::cout << "a: " << _a <<std::endl;
         //std::cout << "b: " << _b <<std::endl;
         //std::cout << "b/a: " << _b/_a <<std::endl;

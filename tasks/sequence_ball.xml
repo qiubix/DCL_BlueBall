@@ -1,0 +1,91 @@
+<Task>
+    <!-- reference task information -->
+    <Reference>
+            <Author> </Author>
+        <Description> </Description>
+    </Reference>
+
+    <Subtasks>
+        <Subtask name="Main">
+            <Executor name="Processing" period="1">
+                <!--          	<Component name="Seq1" type="CvBasic:CameraOpenCV" priority="1" bump="0">
+                </Component> -->
+                <Component name="CameraInfo" type="CvCoreTypes:CameraInfoProvider" priority="20" bump="0">
+                </Component>
+                <Component name="Seq1" type="CvBasic:Sequence" priority="1" bump="0">
+                    <param name="sequence.directory">%[TASK_LOCATION]%/../data/ball/</param>
+                    <param name="sequence.pattern">.*\.png</param>
+                    <param name="mode.loop">1</param>
+                </Component>	
+                <Component name="ColorConv" type="CvBasic:CvColorConv" priority="30" bump="0">
+                    <param name="type">BGR2HSV</param>
+                </Component>
+                <Component name="LUT" type="BlueBall:MS_Blueball_LUT" priority="40" bump="0">
+                </Component>
+                <Component name="MorphClose" type="CvBasic:CvMorphology" priority="50" bump="0">
+                    <param name="type">MORPH_CLOSE</param>
+                    <param name="iterations">3</param>
+                </Component>
+                <Component name="MorphOpen" type="CvBasic:CvMorphology" priority="60" bump="0">
+                    <param name="type">MORPH_OPEN</param>
+                    <param name="iterations">3</param>
+                </Component>
+                <Component name="Blob" type="CvBlobs:BlobExtractor" priority="70" bump="0">
+                    <param name="min_size">500</param>
+                </Component>
+                <Component name="Decide" type="BlueBall:MS_Blueball_Decide" priority="80" bump="0">
+                </Component>
+				<Component name="Update" type="BlueBall:MS_Blueball_Network" priority="7" bump="0">
+                </Component> 
+            </Executor>
+            <Executor name="Visualization" period="0.2">
+                <Component name="Wnd1" type="CvBasic:CvWindow" priority="1" bump="0">
+                    <param name="title">Preview</param>
+                    <param name="count">3</param>
+                </Component>
+            </Executor>
+        </Subtask>
+    </Subtasks>
+    <DataStreams>
+        <Source name="Seq1.out_img">
+            <sink>ColorConv.in_img</sink>
+            <sink>Wnd1.in_img0</sink>
+        </Source>
+        <!-- <Source name="ColorConv.out_img">
+            <sink>MorphClose.in_img</sink>
+            <sink>Wnd1.in_img1</sink>
+        </Source>-->
+        <Source name="CameraInfo.out_camerainfo">
+            <sink>Decide.in_cameraInfo</sink>
+        </Source>
+        <Source name="ColorConv.out_img">
+            <sink>LUT.in_img</sink>
+        </Source>
+        <Source name="LUT.out_segments">
+            <sink>MorphClose.in_img</sink>
+            <sink>Wnd1.in_img1</sink>
+        </Source>
+        <Source name="LUT.out_hue">
+            <sink>Decide.in_hue</sink>
+        </Source>
+        <Source name="MorphClose.out_img">
+            <sink>MorphOpen.in_img</sink>
+        </Source>
+        <Source name="MorphOpen.out_img">
+            <sink>Blob.in_img</sink>
+            <!-- <sink>Wnd1.in_img1</sink>-->
+        </Source>
+        <Source name="Blob.out_blobs">
+            <sink>Decide.in_blobs</sink>
+        </Source>
+        <Source name="Blob.out_img">
+            <sink>Wnd1.in_img2</sink>
+        </Source>
+        <Source name="Decide.out_balls">
+            <sink>Wnd1.in_draw0</sink>
+        </Source>
+        <Source name="Decide.out_ellipse">
+            <sink>Update.in_ellipse</sink>
+        </Source>
+    </DataStreams>
+</Task>
