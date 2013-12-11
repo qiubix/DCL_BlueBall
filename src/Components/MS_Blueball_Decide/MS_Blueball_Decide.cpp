@@ -55,6 +55,7 @@ void MS_Blueball_Decide::prepareInterface()
     // Register output streams.
     registerStream("out_balls", &out_balls);
     registerStream("out_imagePosition", &out_imagePosition);
+    registerStream("out_ellipse", &out_ellipse);
 
 }
 
@@ -137,20 +138,28 @@ void MS_Blueball_Decide::onStep()
         // Write blueball list to stream.
         out_balls.write(Blueballs);
 
+        vector<double> ellipse;
 
         double maxPixels = std::max(cameraInfo.width, cameraInfo.height);
         double diameter=std::max(r2.size.width, r2.size.height)/maxPixels;
         double _a = std::max(r2.size.width, r2.size.height)/2;
         double _b = std::min(r2.size.width, r2.size.height)/2;
+        double convexity = _b/_a;
+        double area = M_PI*4*_a*_b;
 
-        double area = M_PI*a*b;
+        ellipse.push_back(_a);
+        ellipse.push_back(_b);
+        ellipse.push_back(convexity);
+        ellipse.push_back(area);
+        out_ellipse.write(ellipse);
+
         //std::cout << a/maxPixels << "\t" << b/maxPixels << "\t" << area << std::endl;
 
         Types::ImagePosition imagePosition;
-        std::cout << "a: " << _a <<std::endl;
-        std::cout << "b: " << _b <<std::endl;
-        std::cout << "b/a: " << _b/_a <<std::endl;
-        std::cout << "pole: " << M_PI*4*_a*_b <<std::endl;
+        //std::cout << "a: " << _a <<std::endl;
+        //std::cout << "b: " << _b <<std::endl;
+        //std::cout << "b/a: " << _b/_a <<std::endl;
+        //std::cout << "pole: " << M_PI*4*_a*_b <<std::endl;
         //std::cout << "Srednica: " <<  std::max(r2.size.width, r2.size.height)<<std::endl;
         // Change coordinate system hence it will return coordinates from (-1,1), center is 0.
         imagePosition.elements[0] = (r2.center.x - cameraInfo.width / 2) / maxPixels;

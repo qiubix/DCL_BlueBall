@@ -37,10 +37,12 @@ void MS_Blueball_Network::prepareInterface()
     registerHandler("onNewImage", &h_onNewImage);
 
     // Register data streams.
-    registerStream("in_imagePosition", &in_imagePosition);
+    //registerStream("in_imagePosition", &in_imagePosition);
+    registerStream("in_ellipse", &in_ellipse);
 
     //addDependency("onNewImage", &in_img);
-    addDependency("onNewImage", &in_imagePosition);
+    //addDependency("onNewImage", &in_imagePosition);
+    addDependency("onNewImage", &in_ellipse);
 
     registerStream("out_probabilities", &out_probabilities);
 
@@ -178,8 +180,9 @@ void MS_Blueball_Network::onNewImage()
     std::cout << "\n";
     theNet.SetDefaultBNAlgorithm(DSL_ALG_BN_LAURITZEN);
 
-    Types::ImagePosition imagePosition = in_imagePosition.read();
-    updateFeatureVector(imagePosition);
+    //Types::ImagePosition imagePosition = in_imagePosition.read();
+    std::vector<double> ellipse = in_ellipse.read();
+    updateFeatureVector(ellipse);
 
     calculateProbabilities();
     updateNetwork(newProbabilities);
@@ -187,7 +190,7 @@ void MS_Blueball_Network::onNewImage()
     computeDecision();
 }
 
-void MS_Blueball_Network::updateFeatureVector(Types::ImagePosition imagePosition)
+void MS_Blueball_Network::updateFeatureVector(const std::vector<double> ellipse)
 {
     if(features.size() == 0) {
         vector <double> flatness;
@@ -196,12 +199,14 @@ void MS_Blueball_Network::updateFeatureVector(Types::ImagePosition imagePosition
         features.push_back(area);
     }
     //double newDiameter = imagePosition.elements[2];
-    double newFlatness = imagePosition.elements[3];
-    double newArea = imagePosition.elements[2];
+    //double newFlatness = imagePosition.elements[3];
+    //double newArea = imagePosition.elements[2];
+    double newFlatness = ellipse[2];
+    double newArea = ellipse[3];
 
     //std::cout << "Diameter: " << newDiameter << "\t";
-    //std::cout << "Flatness: " << newFlatness << "\t";
-    //std::cout << "Area: " << newArea << "\t";
+    std::cout << "Flatness: " << newFlatness << "\t";
+    std::cout << "Area: " << newArea << "\t";
 
     features[0].push_back(newFlatness);
     features[1].push_back(newArea);

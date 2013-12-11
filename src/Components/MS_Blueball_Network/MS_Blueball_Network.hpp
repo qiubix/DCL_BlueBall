@@ -27,67 +27,68 @@ using namespace cv;
 class MS_Blueball_Network: public Base::Component
 {
 public:
-	/*!
-	 * Constructor.
-	 */
+    /*!
+     * Constructor.
+     */
     MS_Blueball_Network(const std::string & name = "");
 
-	/*!
-	 * Destructor
-	 */
+    /*!
+     * Destructor
+     */
     virtual ~MS_Blueball_Network();
 
 
 protected:
 
-	DSL_network theNet;
+    DSL_network theNet;
 
     vector <vector <double> > features;
 
     double newProbabilities[2];
 
     // Input data stream
-    Base::DataStreamIn <Types::ImagePosition> in_imagePosition;
+    //Base::DataStreamIn <Types::ImagePosition> in_imagePosition;
     //Base::DataStreamIn <Mat> in_img;
+    Base::DataStreamIn < vector <double> > in_ellipse;
 
-	// Output data stream
+    // Output data stream
     Base::DataStreamOut < vector <double> > out_probabilities;
     //Base::DataStreamOut <Mat> out_img;
 
-	// Event handler function.	
-	void onNewImage();
+    // Event handler function.
+    void onNewImage();
 
-	// Event handler.
+    // Event handler.
     Base::EventHandler <MS_Blueball_Network> h_onNewImage;
 
-	// Event emited after the image is processed.
+    // Event emited after the image is processed.
     //Base::Event * newImage;
 
     void prepareInterface();
-	/*!
-	 * Connects source to given device.
-	 */
-	bool onInit();
+    /*!
+     * Connects source to given device.
+     */
+    bool onInit();
 
-	/*!
-	 * Disconnect source from device, closes streams, etc.
-	 */
-	bool onFinish();
+    /*!
+     * Disconnect source from device, closes streams, etc.
+     */
+    bool onFinish();
 
-	/*!
-	 * Retrieves data from device.
-	 */
-	bool onStep();
+    /*!
+     * Retrieves data from device.
+     */
+    bool onStep();
 
-	/*!
-	 * Start component
-	 */
-	bool onStart();
+    /*!
+     * Start component
+     */
+    bool onStart();
 
-	/*!
-	 * Stop component
-	 */
-	bool onStop();
+    /*!
+     * Stop component
+     */
+    bool onStop();
 
 private:
 
@@ -95,7 +96,7 @@ private:
 
     void createNetwork();
 
-    void updateFeatureVector(Types::ImagePosition imagePosition);
+    void updateFeatureVector(const std::vector<double> ellipse);
 
     void calculateProbabilities();
 
