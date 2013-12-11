@@ -154,23 +154,23 @@ bool MS_Blueball_Network::onFinish()
 {
     LOG(LTRACE) << "MS_Blueball_Network::finish\n";
 
-	return true;
+    return true;
 }
 
 bool MS_Blueball_Network::onStep()
 {
     LOG(LTRACE) << "MS_Blueball_Network::step\n";
-	return true;
+    return true;
 }
 
 bool MS_Blueball_Network::onStop()
 {
-	return true;
+    return true;
 }
 
 bool MS_Blueball_Network::onStart()
 {
-	return true;
+    return true;
 }
 
 void MS_Blueball_Network::onNewImage()
@@ -200,8 +200,8 @@ void MS_Blueball_Network::updateFeatureVector(Types::ImagePosition imagePosition
     double newArea = imagePosition.elements[2];
 
     //std::cout << "Diameter: " << newDiameter << "\t";
-    std::cout << "Flatness: " << newFlatness << "\t";
-    std::cout << "Area: " << newArea << "\t";
+    //std::cout << "Flatness: " << newFlatness << "\t";
+    //std::cout << "Area: " << newArea << "\t";
 
     features[0].push_back(newFlatness);
     features[1].push_back(newArea);
@@ -296,9 +296,9 @@ void MS_Blueball_Network::computeDecision()
     double areaProbability = getOutcomeProbability(area, "HIGH");
     double flatProbability = getOutcomeProbability(flat, "YES");
 
-    displayProbability("ellipse cpt", ellipseProbability);
-    displayProbability("area cpt", areaProbability);
-    displayProbability("object is flat", flatProbability);
+    //displayProbability("ellipse cpt", ellipseProbability);
+    //displayProbability("area cpt", areaProbability);
+    //displayProbability("object is flat", flatProbability);
 
     //TODO: proper way of displaying results, passing comptuted probabilities on
 
