@@ -205,8 +205,8 @@ void MS_Blueball_Network::updateFeatureVector(const std::vector<double> ellipse)
     double newArea = ellipse[3];
 
     //std::cout << "Diameter: " << newDiameter << "\t";
-    std::cout << "Flatness: " << newFlatness << "\t";
-    std::cout << "Area: " << newArea << "\t";
+    //std::cout << "Flatness: " << newFlatness << "\t";
+    //std::cout << "Area: " << newArea << "\t";
 
     features[0].push_back(newFlatness);
     features[1].push_back(newArea);
@@ -265,11 +265,11 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
     theNet.GetNode(area) -> Definition() -> SetDefinition(theProbs);
     */
 
-    /*
-    if (highFlatnessProbability != 0) {
+
+    if (highFlatnessProbability > 0.9) {
         theNet.GetNode(ellipse)->Value()->SetEvidence(0);
     }
-    */
+
 
     theNet.UpdateBeliefs();
 }
@@ -296,20 +296,24 @@ void MS_Blueball_Network::computeDecision()
     int ellipse = theNet.FindNode("ellipse");
     int area = theNet.FindNode("area");
     int flat = theNet.FindNode("flat");
+    int nonflat = theNet.FindNode("nonflat");
 
     double ellipseProbability = getOutcomeProbability(ellipse, "HIGH");
     double areaProbability = getOutcomeProbability(area, "HIGH");
     double flatProbability = getOutcomeProbability(flat, "YES");
+    double nonflatProbability = getOutcomeProbability(nonflat, "YES");
 
-    //displayProbability("ellipse cpt", ellipseProbability);
-    //displayProbability("area cpt", areaProbability);
-    //displayProbability("object is flat", flatProbability);
+    displayProbability("ellipse cpt", ellipseProbability);
+    displayProbability("area cpt", areaProbability);
+    displayProbability("object is flat", flatProbability);
+    displayProbability("object is not flat: ", nonflatProbability);
 
     //TODO: proper way of displaying results, passing comptuted probabilities on
 
     theNet.WriteFile("out_blueball_network.xdsl", DSL_XDSL_FORMAT);
 
     resultingProbabilities.push_back(flatProbability);
+    resultingProbabilities.push_back(nonflatProbability);
     out_probabilities.write(resultingProbabilities);
 
 }
