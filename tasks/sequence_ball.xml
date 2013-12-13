@@ -13,7 +13,7 @@
                 <Component name="CameraInfo" type="CvCoreTypes:CameraInfoProvider" priority="20" bump="0">
                 </Component>
                 <Component name="Seq1" type="CvBasic:Sequence" priority="1" bump="0">
-                    <param name="sequence.directory">%[TASK_LOCATION]%/../data/</param>
+                    <param name="sequence.directory">%[TASK_LOCATION]%/../data/ball/</param>
                     <param name="sequence.pattern">.*\.png</param>
                     <param name="mode.loop">1</param>
                 </Component>	
