@@ -37,11 +37,7 @@ void MS_Blueball_Network::prepareInterface()
     registerHandler("onNewImage", &h_onNewImage);
 
     // Register data streams.
-    //registerStream("in_imagePosition", &in_imagePosition);
     registerStream("in_ellipse", &in_ellipse);
-
-    //addDependency("onNewImage", &in_img);
-    //addDependency("onNewImage", &in_imagePosition);
     addDependency("onNewImage", &in_ellipse);
 
     registerStream("out_probabilities", &out_probabilities);
@@ -79,7 +75,6 @@ void MS_Blueball_Network::createNetwork()
     outcomes.Add("NO");
     theNet.GetNode(flat)->Definition()->SetNumberOfOutcomes(outcomes);
 
-    //TODO: Add nonflat node
     int nonflat = theNet.AddNode(DSL_CPT, "nonflat");
     outcomes.Flush();
     outcomes.Add("YES");
@@ -89,7 +84,6 @@ void MS_Blueball_Network::createNetwork()
     theNet.AddArc(ellipse, flat);
     theNet.AddArc(area, flat);
 
-    //TODO: Add arcs to nonflat node
     theNet.AddArc(ellipse, nonflat);
     theNet.AddArc(area, nonflat);
 
@@ -119,7 +113,6 @@ void MS_Blueball_Network::createNetwork()
     theCoordinates.UncheckedValue() = 0.99;
     theCoordinates.Next();
 
-    //TODO: add coordinates for nonflat node
     //DSL_sysCoordinates theCoordinates(*theNet.GetNode(nonflat)->Definition());
     theCoordinates.LinkTo(*theNet.GetNode(nonflat)->Value());
     theCoordinates.GoFirst();
@@ -180,7 +173,6 @@ void MS_Blueball_Network::onNewImage()
     std::cout << "\n";
     theNet.SetDefaultBNAlgorithm(DSL_ALG_BN_LAURITZEN);
 
-    //Types::ImagePosition imagePosition = in_imagePosition.read();
     std::vector<double> ellipse = in_ellipse.read();
     updateFeatureVector(ellipse);
 
@@ -254,21 +246,17 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
     //std::cout << " High flatness prob: " << highFlatnessProbability << "\t";
     int ellipse = theNet.FindNode("ellipse");
     int area = theNet.FindNode("area");
-    int flat = theNet.FindNode("flat");
+    //int flat = theNet.FindNode("flat");
 
     theNet.GetNode(ellipse)->Value()->ClearEvidence();
     theNet.GetNode(area)->Value()->ClearEvidence();
 
-    //FIXME: proper way of updating probabilities
-
     DSL_doubleArray theProbs;
     theProbs.SetSize(2);
+
     theProbs[0] = highFlatnessProbability;
     theProbs[1] = 1 - highFlatnessProbability;
     theNet.GetNode(ellipse) -> Definition() -> SetDefinition(theProbs);
-
-    //TODO: update area node probability
-
 
     theProbs[0] = highAreaProbability;
     theProbs[1] = 1 - highAreaProbability;
@@ -318,9 +306,7 @@ void MS_Blueball_Network::computeDecision()
     displayProbability("object is flat", flatProbability);
     displayProbability("object is not flat: ", nonflatProbability);
 
-    //TODO: proper way of displaying results, passing comptuted probabilities on
-
-    theNet.WriteFile("out_blueball_network.xdsl", DSL_XDSL_FORMAT);
+    //theNet.WriteFile("out_blueball_network.xdsl", DSL_XDSL_FORMAT);
 
     resultingProbabilities.push_back(flatProbability);
     resultingProbabilities.push_back(nonflatProbability);
