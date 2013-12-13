@@ -227,13 +227,18 @@ void MS_Blueball_Network::calculateProbabilities()
     } else {
         newFlatnessProbability = 1 - (1-currentFlatness)/0.2;
     }
-    //TODO: compute probability for area
-    //newAreaProbability = 0.5;
     double maxArea = currentArea;
+    double current2MaxAreaRatio = 1;
     if(area.size() > 1) {
         maxArea = *std::max_element(area.begin(), area.end());
-        newAreaProbability = 1 - (maxArea - currentArea)/maxArea;
+        current2MaxAreaRatio = currentArea/maxArea;
     }
+    if(current2MaxAreaRatio < 0.4) {
+        newAreaProbability = 0;
+    } else {
+        newAreaProbability = (current2MaxAreaRatio-0.4)/0.6;
+    }
+
 
     newProbabilities[0] = newFlatnessProbability;
     newProbabilities[1] = newAreaProbability;
