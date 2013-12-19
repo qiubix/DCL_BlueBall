@@ -1,5 +1,5 @@
 /*!
- * \file MS_Blueball_Decide.cpp
+ * \file FeatureExtractor.cpp
  * \brief
  * \author mstefanc
  * \date 2010-07-05
@@ -9,34 +9,34 @@
 #include <string>
 #include <math.h>
 
-#include "MS_Blueball_Decide.hpp"
+#include "FeatureExtractor.hpp"
 #include "Logger.hpp"
 
 #include "Types/Ellipse.hpp"
 
 namespace Processors {
-namespace MS_Blueball {
+namespace Blueball {
 
 // OpenCV writes hue in range 0..180 instead of 0..360
 #define H(x) (x>>1)
 
-MS_Blueball_Decide::MS_Blueball_Decide(const std::string & name) : Base::Component(name)
+FeatureExtractor::FeatureExtractor(const std::string & name) : Base::Component(name)
 {
-    LOG(LTRACE) << "Hello MS_Blueball_Decide\n";
+    LOG(LTRACE) << "Hello FeatureExtractor\n";
     blobs_ready = hue_ready = false;
 }
 
-MS_Blueball_Decide::~MS_Blueball_Decide()
+FeatureExtractor::~FeatureExtractor()
 {
-    LOG(LTRACE) << "Good bye MS_Blueball_Decide\n";
+    LOG(LTRACE) << "Good bye FeatureExtractor\n";
 }
 
-void MS_Blueball_Decide::prepareInterface()
+void FeatureExtractor::prepareInterface()
 {
 
-    LOG(LTRACE) << "MS_Blueball_Decide::initialize\n";
+    LOG(LTRACE) << "FeatureExtractor::initialize\n";
 
-    h_onStep.setup(this, &MS_Blueball_Decide::onStep);
+    h_onStep.setup(this, &FeatureExtractor::onStep);
     registerHandler("onStep", &h_onStep);
 
     // Register input streams.
@@ -59,21 +59,21 @@ void MS_Blueball_Decide::prepareInterface()
 
 }
 
-bool MS_Blueball_Decide::onInit()
+bool FeatureExtractor::onInit()
 {
     return true;
 }
 
-bool MS_Blueball_Decide::onFinish()
+bool FeatureExtractor::onFinish()
 {
-    LOG(LTRACE) << "MS_Blueball_Decide::finish\n";
+    LOG(LTRACE) << "FeatureExtractor::finish\n";
 
     return true;
 }
 
-void MS_Blueball_Decide::onStep()
+void FeatureExtractor::onStep()
 {
-    LOG(LTRACE) << "MS_Blueball_Decide::step\n";
+    LOG(LTRACE) << "FeatureExtractor::step\n";
 
     blobs_ready = hue_ready = false;
 
@@ -177,20 +177,20 @@ void MS_Blueball_Decide::onStep()
         out_imagePosition.write(imagePosition);
 
     } catch (...) {
-        LOG(LERROR) << "MS_Blueball_Decide::onNewImage failed\n";
+        LOG(LERROR) << "FeatureExtractor::onNewImage failed\n";
     }
 }
 
-bool MS_Blueball_Decide::onStop()
+bool FeatureExtractor::onStop()
 {
     return true;
 }
 
-bool MS_Blueball_Decide::onStart()
+bool FeatureExtractor::onStart()
 {
     return true;
 }
 
 
-}//: namespace MS_Blueball
+}//: namespace Blueball
 }//: namespace Processors

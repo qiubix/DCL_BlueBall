@@ -8,7 +8,7 @@ FIND_PACKAGE( OpenCV REQUIRED )
 FILE(GLOB files *.cpp)
 
 # Create an executable file from sources:
-ADD_LIBRARY(MS_Blueball_Decide SHARED ${files})
-TARGET_LINK_LIBRARIES(MS_Blueball_Decide ${OpenCV_LIBS} ${DisCODe_LIBRARIES} ${CvBlobs_LIBS})
+ADD_LIBRARY(FeatureExtractor SHARED ${files})
+TARGET_LINK_LIBRARIES(FeatureExtractor ${OpenCV_LIBS} ${DisCODe_LIBRARIES} ${CvBlobs_LIBS})
 
-INSTALL_COMPONENT(MS_Blueball_Decide)
+INSTALL_COMPONENT(FeatureExtractor)

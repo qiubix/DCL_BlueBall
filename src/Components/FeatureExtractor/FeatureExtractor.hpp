@@ -1,12 +1,12 @@
 /*!
- * \file MS_Blueball_Decide.hpp
+ * \file FeatureExtractor.hpp
  * \brief
  * \author qiubix
  * \date
  */
 
-#ifndef MS_BLUEBALL_DECIDE_HPP_
-#define MS_BLUEBALL_DECIDE_HPP_
+#ifndef FEATURE_EXTRACTOR_HPP_
+#define FEATURE_EXTRACTOR_HPP_
 
 #include "Component_Aux.hpp"
 #include "Component.hpp"
@@ -22,27 +22,27 @@
 #include "Types/ImagePosition.hpp"
 
 namespace Processors {
-namespace MS_Blueball {
+namespace Blueball {
 
 using namespace cv;
 
 
 /*!
- * \class MS_Blueball_Decide
+ * \class FeatureExtractor
  * \brief Example processor class.
  */
-class MS_Blueball_Decide: public Base::Component
+class FeatureExtractor: public Base::Component
 {
 public:
     /*!
      * Constructor.
      */
-    MS_Blueball_Decide(const std::string & name = "");
+    FeatureExtractor(const std::string & name = "");
 
     /*!
      * Destructor
      */
-    virtual ~MS_Blueball_Decide();
+    virtual ~FeatureExtractor();
 
     /*!
      * Return window properties
@@ -83,7 +83,7 @@ protected:
 
 
     /// New image is waiting
-    Base::EventHandler <MS_Blueball_Decide> h_onStep;
+    Base::EventHandler <FeatureExtractor> h_onStep;
     /// Input blobs
     Base::DataStreamIn <Types::Blobs::BlobResult> in_blobs;
 
@@ -120,14 +120,14 @@ private:
     cv::Size cameraInfo;
 };
 
-}//: namespace MS_Blueball
+}//: namespace Blueball
 }//: namespace Processors
 
 
 /*
  * Register processor component.
  */
-REGISTER_COMPONENT("MS_Blueball_Decide", Processors::MS_Blueball::MS_Blueball_Decide)
+REGISTER_COMPONENT("FeatureExtractor", Processors::Blueball::FeatureExtractor)
 
-#endif /* MS_BLUEBALL_DECIDE_HPP_ */
+#endif /* FEATURE_EXTRACTOR_HPP_ */
 

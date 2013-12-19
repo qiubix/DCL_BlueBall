@@ -3,8 +3,8 @@
  * \brief
  */
 
-#ifndef MS_BLUEBALL_NETWORK_HPP_
-#define MS_BLUEBALL_NETWORK_HPP_
+#ifndef HYPOTHESES_EVALUATION_HPP_
+#define HYPOTHESES_EVALUATION_HPP_
 
 #include "Component_Aux.hpp"
 #include "Component.hpp"
@@ -16,26 +16,26 @@
 #include "Types/ImagePosition.hpp"
 
 namespace Processors {
-namespace MS_Blueball {
+namespace Blueball {
 
 using namespace cv;
 
 /*!
- * \class MS_Blueball_Network
- * \brief MS_Blueball_Network processor class.
+ * \class HypothesesEvaluation
+ * \brief HypothesesEvaluation processor class.
  */
-class MS_Blueball_Network: public Base::Component
+class HypothesesEvaluation: public Base::Component
 {
 public:
     /*!
      * Constructor.
      */
-    MS_Blueball_Network(const std::string & name = "");
+    HypothesesEvaluation(const std::string & name = "");
 
     /*!
      * Destructor
      */
-    virtual ~MS_Blueball_Network();
+    virtual ~HypothesesEvaluation();
 
 
 protected:
@@ -59,7 +59,7 @@ protected:
     void onNewImage();
 
     // Event handler.
-    Base::EventHandler <MS_Blueball_Network> h_onNewImage;
+    Base::EventHandler <HypothesesEvaluation> h_onNewImage;
 
     // Event emited after the image is processed.
     //Base::Event * newImage;
@@ -112,13 +112,13 @@ private:
 
 };
 
-}//: namespace MS_Blueball
+}//: namespace Blueball
 }//: namespace Processors
 
 
 /*
  * Register processor component.
  */
-REGISTER_COMPONENT("MS_Blueball_Network", Processors::MS_Blueball::MS_Blueball_Network)
+REGISTER_COMPONENT("HypothesesEvaluation", Processors::Blueball::HypothesesEvaluation)
 
-#endif /* MS_BLUEBALL_NETWORK_HPP_ */
+#endif /* HYPOTHESES_EVALUATION_HPP_ */
