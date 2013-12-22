@@ -12,7 +12,7 @@
                     <param name="directory">/home/kkaterza/DCL/BlueBall/data/Blueball</param>
                     <param name="triggered">false</param>
                     <param name="loop">true</param>
-                </Component>	
+                </Component>
                 <!--          	<Component name="Seq1" type="CvBasic:Sequence" priority="1" bump="0">
                     <param name="directory">/home/qiubix/DCL/BlueBall/data/Blueball</param>
                     <param name="triggered">false</param>
@@ -23,7 +23,7 @@
                 <Component name="ColorConv" type="CvBasic:CvColorConv" priority="3" bump="0">
                     <param name="type">BGR2HSV</param>
                 </Component>
-                <Component name="LUT" type="BlueBall:MS_Blueball_LUT" priority="4" bump="0">
+                <Component name="LUT" type="BlueBall:LUT" priority="4" bump="0">
                 </Component>
                 <Component name="MorphClose" type="CvBasic:CvMorphology" priority="5" bump="0">
                     <param name="type">MORPH_CLOSE</param>
@@ -36,10 +36,10 @@
                 <Component name="Blob" type="CvBlobs:BlobExtractor" priority="7" bump="0">
                     <param name="min_size">500</param>
                 </Component>
-                <Component name="Decide" type="BlueBall:MS_Blueball_Decide" priority="8" bump="0">
-                </Component> 
-		<Component name="Update" type="BlueBall:MS_Blueball_Network" priority="9" bump="0">
-                </Component> 
+                <Component name="Features" type="BlueBall:FeatureExtraction" priority="8" bump="0">
+                </Component>
+                <Component name="Evaluation" type="BlueBall:HypothesesEvaluation" priority="9" bump="0">
+                </Component>
             </Executor>
             <Executor name="Visualization" period="0.1">
                 <Component name="Wnd1" type="CvBasic:CvWindow" priority="1" bump="0">
@@ -55,7 +55,7 @@
             <sink>Wnd1.in_img0</sink>
         </Source>
         <Source name="CameraInfo.out_camerainfo">
-            <sink>Decide.in_cameraInfo</sink>
+            <sink>Features.in_cameraInfo</sink>
         </Source>
         <Source name="ColorConv.out_img">
             <sink>LUT.in_img</sink>
@@ -74,16 +74,16 @@
             <sink>Blob.in_img</sink>
         </Source>
         <Source name="Blob.out_blobs">
-            <sink>Decide.in_blobs</sink>
+            <sink>Features.in_blobs</sink>
         </Source>
         <Source name="Blob.out_img">
             <sink>Wnd1.in_img2</sink>
         </Source>
-        <Source name="Decide.out_balls">
+        <Source name="Features.out_balls">
             <sink>Wnd1.in_draw0</sink>
         </Source>
-	<Source name="Decide.out_imagePosition">
-	    <sink>Update.in_imagePosition</sink>
-	</Source>
+        <Source name="Features.out_features">
+            <sink>Evaluation.in_features</sink>
+        </Source>
     </DataStreams>
 </Task>

@@ -3,14 +3,14 @@
 # to point to 'dist' directory of current DCL, it'll be substituted during installation. 
 
 # directory containing header files
-SET(MS_INCLUDE_DIR @CMAKE_INSTALL_PREFIX@/include)
-INCLUDE_DIRECTORIES(${MS_INCLUDE_DIR})
+SET(Blueball_INCLUDE_DIR @CMAKE_INSTALL_PREFIX@/include)
+INCLUDE_DIRECTORIES(${Blueball_INCLUDE_DIR})
 
 # directory containing libraries
-SET(MS_LIB_DIR @CMAKE_INSTALL_PREFIX@/lib)
-LINK_DIRECTORIES(${MS_LIB_DIR})
+SET(Blueball_LIB_DIR @CMAKE_INSTALL_PREFIX@/lib)
+LINK_DIRECTORIES(${Blueball_LIB_DIR})
 
-# list of libraries to link against when using features of MS
+# list of libraries to link against when using features of Blueball
 # add all additional libraries built by this dcl (NOT components)
-# SET(MS_LIBS lib_1 lib_2)
+# SET(Blueball_LIBS lib_1 lib_2)
 # SET(ADDITIONAL_LIB_DIRS @CMAKE_INSTALL_PREFIX@/lib ${ADDITIONAL_LIB_DIRS})

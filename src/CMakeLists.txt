@@ -32,4 +32,4 @@ ADD_SUBDIRECTORY(Components)
 ADD_SUBDIRECTORY(Types)
 
 # Prepare config file to use from another DCLs
-CONFIGURE_FILE(MSConfig.cmake.in ${CMAKE_INSTALL_PREFIX}/MSConfig.cmake @ONLY)
+CONFIGURE_FILE(BlueballConfig.cmake.in ${CMAKE_INSTALL_PREFIX}/BlueballConfig.cmake @ONLY)

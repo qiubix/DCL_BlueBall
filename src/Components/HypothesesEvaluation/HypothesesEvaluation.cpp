@@ -7,38 +7,38 @@
 #include <string>
 #include <cmath>
 
-#include "MS_Blueball_Network.hpp"
+#include "HypothesesEvaluation.hpp"
 #include "Common/Logger.hpp"
 
 namespace Processors {
-namespace MS_Blueball {
+namespace Blueball {
 
 using namespace cv;
 
-MS_Blueball_Network::MS_Blueball_Network(const std::string & name) : Base::Component(name)
+HypothesesEvaluation::HypothesesEvaluation(const std::string & name) : Base::Component(name)
 {
-    LOG(LTRACE) << "Hello MS_Blueball_Network\n";
+    LOG(LTRACE) << "Hello HypothesesEvaluation\n";
 }
 
-MS_Blueball_Network::~MS_Blueball_Network()
+HypothesesEvaluation::~HypothesesEvaluation()
 {
-    LOG(LTRACE) << "Good bye MS_Blueball_Network\n";
+    LOG(LTRACE) << "Good bye HypothesesEvaluation\n";
 }
 
-void MS_Blueball_Network::prepareInterface()
+void HypothesesEvaluation::prepareInterface()
 {
 
-    LOG(LTRACE) << "MS_Blueball_Network::initialize\n";
+    LOG(LTRACE) << "HypothesesEvaluation::initialize\n";
 
     // Register data streams, events and event handlers HERE!
 
     // Register handler.
-    h_onNewImage.setup(this, &MS_Blueball_Network::onNewImage);
+    h_onNewImage.setup(this, &HypothesesEvaluation::onNewImage);
     registerHandler("onNewImage", &h_onNewImage);
 
     // Register data streams.
-    registerStream("in_ellipse", &in_ellipse);
-    addDependency("onNewImage", &in_ellipse);
+    registerStream("in_features", &in_features);
+    addDependency("onNewImage", &in_features);
 
     registerStream("out_probabilities", &out_probabilities);
 
@@ -46,7 +46,7 @@ void MS_Blueball_Network::prepareInterface()
 
 }
 
-void MS_Blueball_Network::initNetwork()
+void HypothesesEvaluation::initNetwork()
 {
     int result = theNet.ReadFile("/home/qiubix/DCL/BlueBall/in_blueball_network.xdsl", DSL_XDSL_FORMAT);
     //theNet.ReadFile("/home/kkaterza/DCL/BlueBall/in_blueball_network.xdsl", DSL_XDSL_FORMAT);
@@ -54,7 +54,7 @@ void MS_Blueball_Network::initNetwork()
     LOG(LWARNING) << "Reading network file: " << result;
 }
 
-void MS_Blueball_Network::createNetwork()
+void HypothesesEvaluation::createNetwork()
 {
     DSL_idArray outcomes;
 
@@ -139,42 +139,42 @@ void MS_Blueball_Network::createNetwork()
 
 }
 
-bool MS_Blueball_Network::onInit()
+bool HypothesesEvaluation::onInit()
 {
-    LOG(LTRACE) << "MS_Blueball_Network::onInit()\n";
+    LOG(LTRACE) << "HypothesesEvaluation::onInit()\n";
         return true;
 }
 
-bool MS_Blueball_Network::onFinish()
+bool HypothesesEvaluation::onFinish()
 {
-    LOG(LTRACE) << "MS_Blueball_Network::finish\n";
+    LOG(LTRACE) << "HypothesesEvaluation::finish\n";
 
     return true;
 }
 
-bool MS_Blueball_Network::onStep()
+bool HypothesesEvaluation::onStep()
 {
-    LOG(LTRACE) << "MS_Blueball_Network::step\n";
+    LOG(LTRACE) << "HypothesesEvaluation::step\n";
     return true;
 }
 
-bool MS_Blueball_Network::onStop()
-{
-    return true;
-}
-
-bool MS_Blueball_Network::onStart()
+bool HypothesesEvaluation::onStop()
 {
     return true;
 }
 
-void MS_Blueball_Network::onNewImage()
+bool HypothesesEvaluation::onStart()
+{
+    return true;
+}
+
+void HypothesesEvaluation::onNewImage()
 {
     std::cout << "\n";
     theNet.SetDefaultBNAlgorithm(DSL_ALG_BN_LAURITZEN);
 
-    std::vector<double> ellipse = in_ellipse.read();
-    updateFeatureVector(ellipse);
+    std::vector<double> newFeatures = in_features.read();
+    updateFeatureVector(newFeatures);
 
     calculateProbabilities();
     updateNetwork(newProbabilities);
@@ -182,7 +182,7 @@ void MS_Blueball_Network::onNewImage()
     computeDecision();
 }
 
-void MS_Blueball_Network::updateFeatureVector(const std::vector<double> ellipse)
+void HypothesesEvaluation::updateFeatureVector(const std::vector<double> newFeatures)
 {
     if(features.size() == 0) {
         vector <double> flatness;
@@ -193,8 +193,8 @@ void MS_Blueball_Network::updateFeatureVector(const std::vector<double> ellipse)
     //double newDiameter = imagePosition.elements[2];
     //double newFlatness = imagePosition.elements[3];
     //double newArea = imagePosition.elements[2];
-    double newFlatness = ellipse[2];
-    double newArea = ellipse[3];
+    double newFlatness = newFeatures[2];
+    double newArea = newFeatures[3];
 
     //std::cout << "Diameter: " << newDiameter << "\t";
     //std::cout << "Flatness: " << newFlatness << "\t";
@@ -204,7 +204,7 @@ void MS_Blueball_Network::updateFeatureVector(const std::vector<double> ellipse)
     features[1].push_back(newArea);
 }
 
-void MS_Blueball_Network::calculateProbabilities()
+void HypothesesEvaluation::calculateProbabilities()
 {
     double newFlatnessProbability;
     double newAreaProbability;
@@ -236,7 +236,7 @@ void MS_Blueball_Network::calculateProbabilities()
     newProbabilities[1] = newAreaProbability;
 }
 
-void MS_Blueball_Network::updateNetwork(double* newProbabilities)
+void HypothesesEvaluation::updateNetwork(double* newProbabilities)
 {
     theNet.UpdateBeliefs();
 
@@ -273,13 +273,13 @@ void MS_Blueball_Network::updateNetwork(double* newProbabilities)
 }
 
 
-int MS_Blueball_Network::getOutcomePosition(int node, std::string outcome)
+int HypothesesEvaluation::getOutcomePosition(int node, std::string outcome)
 {
     DSL_idArray *theNames = theNet.GetNode(node)->Definition()->GetOutcomesNames();
     return theNames->FindPosition(outcome.c_str());
 }
 
-double MS_Blueball_Network::getOutcomeProbability(int node, std::string outcome)
+double HypothesesEvaluation::getOutcomeProbability(int node, std::string outcome)
 {
     DSL_sysCoordinates theFlatnessCoordinates(*theNet.GetNode(node)->Value());
     theFlatnessCoordinates[0] = getOutcomePosition(node, outcome);
@@ -287,7 +287,7 @@ double MS_Blueball_Network::getOutcomeProbability(int node, std::string outcome)
     return theFlatnessCoordinates.UncheckedValue();
 }
 
-void MS_Blueball_Network::computeDecision()
+void HypothesesEvaluation::computeDecision()
 {
     vector <double> resultingProbabilities;
 
@@ -314,10 +314,10 @@ void MS_Blueball_Network::computeDecision()
 
 }
 
-void MS_Blueball_Network::displayProbability(std::string message, double probability)
+void HypothesesEvaluation::displayProbability(std::string message, double probability)
 {
     std::cout << " " << message << ": " << probability << "\t";
 }
 
-}//: namespace MS_Blueball
+}//: namespace Blueball
 }//: namespace Processors
