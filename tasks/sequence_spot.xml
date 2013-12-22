@@ -16,7 +16,7 @@
                     <param name="sequence.directory">%[TASK_LOCATION]%/../data/spot/</param>
                     <param name="sequence.pattern">.*\.png</param>
                     <param name="mode.loop">1</param>
-                </Component>	
+                </Component>
                 <Component name="ColorConv" type="CvBasic:CvColorConv" priority="30" bump="0">
                     <param name="type">BGR2HSV</param>
                 </Component>
@@ -35,8 +35,8 @@
                 </Component>
                 <Component name="Decide" type="BlueBall:MS_Blueball_Decide" priority="80" bump="0">
                 </Component>
-				<Component name="Update" type="BlueBall:MS_Blueball_Network" priority="7" bump="0">
-                </Component> 
+                <Component name="Update" type="BlueBall:MS_Blueball_Network" priority="90" bump="0">
+                </Component>
             </Executor>
             <Executor name="Visualization" period="0.2">
                 <Component name="Wnd1" type="CvBasic:CvWindow" priority="1" bump="0">
