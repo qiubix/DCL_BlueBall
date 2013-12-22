@@ -36,7 +36,7 @@
                 <Component name="Blob" type="CvBlobs:BlobExtractor" priority="7" bump="0">
                     <param name="min_size">500</param>
                 </Component>
-                <Component name="Features" type="BlueBall:FeatureExtractor" priority="8" bump="0">
+                <Component name="Features" type="BlueBall:FeatureExtraction" priority="8" bump="0">
                 </Component>
                 <Component name="Evaluation" type="BlueBall:HypothesesEvaluation" priority="9" bump="0">
                 </Component>
