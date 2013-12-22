@@ -2,6 +2,6 @@
 
 ADD_COMPONENT(LUT)
 
-ADD_COMPONENT(FeatureExtractor)
+ADD_COMPONENT(FeatureExtraction)
 
 ADD_COMPONENT(HypothesesEvaluation)

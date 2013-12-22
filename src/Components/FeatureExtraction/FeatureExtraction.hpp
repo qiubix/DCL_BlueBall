@@ -1,12 +1,12 @@
 /*!
- * \file FeatureExtractor.hpp
+ * \file FeatureExtraction.hpp
  * \brief
  * \author qiubix
  * \date
  */
 
-#ifndef FEATURE_EXTRACTOR_HPP_
-#define FEATURE_EXTRACTOR_HPP_
+#ifndef FEATURE_EXTRACTION_HPP_
+#define FEATURE_EXTRACTION_HPP_
 
 #include "Component_Aux.hpp"
 #include "Component.hpp"
@@ -28,21 +28,21 @@ using namespace cv;
 
 
 /*!
- * \class FeatureExtractor
+ * \class FeatureExtraction
  * \brief Example processor class.
  */
-class FeatureExtractor: public Base::Component
+class FeatureExtraction: public Base::Component
 {
 public:
     /*!
      * Constructor.
      */
-    FeatureExtractor(const std::string & name = "");
+    FeatureExtraction(const std::string & name = "");
 
     /*!
      * Destructor
      */
-    virtual ~FeatureExtractor();
+    virtual ~FeatureExtraction();
 
     /*!
      * Return window properties
@@ -83,7 +83,7 @@ protected:
 
 
     /// New image is waiting
-    Base::EventHandler <FeatureExtractor> h_onStep;
+    Base::EventHandler <FeatureExtraction> h_onStep;
     /// Input blobs
     Base::DataStreamIn <Types::Blobs::BlobResult> in_blobs;
 
@@ -127,7 +127,7 @@ private:
 /*
  * Register processor component.
  */
-REGISTER_COMPONENT("FeatureExtractor", Processors::Blueball::FeatureExtractor)
+REGISTER_COMPONENT("FeatureExtraction", Processors::Blueball::FeatureExtraction)
 
-#endif /* FEATURE_EXTRACTOR_HPP_ */
+#endif /* FEATURE_EXTRACTION_HPP_ */
 

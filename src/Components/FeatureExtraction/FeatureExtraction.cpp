@@ -1,5 +1,5 @@
 /*!
- * \file FeatureExtractor.cpp
+ * \file FeatureExtraction.cpp
  * \brief
  * \author mstefanc
  * \date 2010-07-05
@@ -9,7 +9,7 @@
 #include <string>
 #include <math.h>
 
-#include "FeatureExtractor.hpp"
+#include "FeatureExtraction.hpp"
 #include "Logger.hpp"
 
 #include "Types/Ellipse.hpp"
@@ -20,23 +20,23 @@ namespace Blueball {
 // OpenCV writes hue in range 0..180 instead of 0..360
 #define H(x) (x>>1)
 
-FeatureExtractor::FeatureExtractor(const std::string & name) : Base::Component(name)
+FeatureExtraction::FeatureExtraction(const std::string & name) : Base::Component(name)
 {
-    LOG(LTRACE) << "Hello FeatureExtractor\n";
+    LOG(LTRACE) << "Hello FeatureExtraction\n";
     blobs_ready = hue_ready = false;
 }
 
-FeatureExtractor::~FeatureExtractor()
+FeatureExtraction::~FeatureExtraction()
 {
-    LOG(LTRACE) << "Good bye FeatureExtractor\n";
+    LOG(LTRACE) << "Good bye FeatureExtraction\n";
 }
 
-void FeatureExtractor::prepareInterface()
+void FeatureExtraction::prepareInterface()
 {
 
-    LOG(LTRACE) << "FeatureExtractor::initialize\n";
+    LOG(LTRACE) << "FeatureExtraction::initialize\n";
 
-    h_onStep.setup(this, &FeatureExtractor::onStep);
+    h_onStep.setup(this, &FeatureExtraction::onStep);
     registerHandler("onStep", &h_onStep);
 
     // Register input streams.
@@ -59,21 +59,21 @@ void FeatureExtractor::prepareInterface()
 
 }
 
-bool FeatureExtractor::onInit()
+bool FeatureExtraction::onInit()
 {
     return true;
 }
 
-bool FeatureExtractor::onFinish()
+bool FeatureExtraction::onFinish()
 {
-    LOG(LTRACE) << "FeatureExtractor::finish\n";
+    LOG(LTRACE) << "FeatureExtraction::finish\n";
 
     return true;
 }
 
-void FeatureExtractor::onStep()
+void FeatureExtraction::onStep()
 {
-    LOG(LTRACE) << "FeatureExtractor::step\n";
+    LOG(LTRACE) << "FeatureExtraction::step\n";
 
     blobs_ready = hue_ready = false;
 
@@ -177,16 +177,16 @@ void FeatureExtractor::onStep()
         out_imagePosition.write(imagePosition);
 
     } catch (...) {
-        LOG(LERROR) << "FeatureExtractor::onNewImage failed\n";
+        LOG(LERROR) << "FeatureExtraction::onNewImage failed\n";
     }
 }
 
-bool FeatureExtractor::onStop()
+bool FeatureExtraction::onStop()
 {
     return true;
 }
 
-bool FeatureExtractor::onStart()
+bool FeatureExtraction::onStart()
 {
     return true;
 }
