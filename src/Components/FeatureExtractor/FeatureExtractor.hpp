@@ -102,7 +102,7 @@ protected:
     /// Position of the blueball in image coordinates.
     Base::DataStreamOut <Types::ImagePosition> out_imagePosition;
 
-    Base::DataStreamOut < vector<double> > out_ellipse;
+    Base::DataStreamOut < vector<double> > out_features;
 
     /// Properties
     //Props props;

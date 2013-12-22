@@ -55,7 +55,7 @@ void FeatureExtractor::prepareInterface()
     // Register output streams.
     registerStream("out_balls", &out_balls);
     registerStream("out_imagePosition", &out_imagePosition);
-    registerStream("out_ellipse", &out_ellipse);
+    registerStream("out_features", &out_features);
 
 }
 
@@ -151,7 +151,7 @@ void FeatureExtractor::onStep()
         ellipse.push_back(_b);
         ellipse.push_back(convexity);
         ellipse.push_back(area);
-        out_ellipse.write(ellipse);
+        out_features.write(ellipse);
 
         //std::cout << a/maxPixels << "\t" << b/maxPixels << "\t" << area << std::endl;
 

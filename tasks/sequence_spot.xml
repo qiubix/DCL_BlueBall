@@ -20,7 +20,7 @@
                 <Component name="ColorConv" type="CvBasic:CvColorConv" priority="30" bump="0">
                     <param name="type">BGR2HSV</param>
                 </Component>
-                <Component name="LUT" type="LUT" priority="40" bump="0">
+                <Component name="LUT" type="BlueBall:LUT" priority="40" bump="0">
                 </Component>
                 <Component name="MorphClose" type="CvBasic:CvMorphology" priority="50" bump="0">
                     <param name="type">MORPH_CLOSE</param>

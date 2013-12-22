@@ -49,7 +49,7 @@ protected:
     // Input data stream
     //Base::DataStreamIn <Types::ImagePosition> in_imagePosition;
     //Base::DataStreamIn <Mat> in_img;
-    Base::DataStreamIn < vector <double> > in_ellipse;
+    Base::DataStreamIn < vector <double> > in_features;
 
     // Output data stream
     Base::DataStreamOut < vector <double> > out_probabilities;
@@ -96,7 +96,7 @@ private:
 
     void createNetwork();
 
-    void updateFeatureVector(const std::vector<double> ellipse);
+    void updateFeatureVector(const std::vector<double> newFeatures);
 
     void calculateProbabilities();
 

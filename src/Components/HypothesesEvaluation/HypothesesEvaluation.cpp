@@ -37,8 +37,8 @@ void HypothesesEvaluation::prepareInterface()
     registerHandler("onNewImage", &h_onNewImage);
 
     // Register data streams.
-    registerStream("in_ellipse", &in_ellipse);
-    addDependency("onNewImage", &in_ellipse);
+    registerStream("in_features", &in_features);
+    addDependency("onNewImage", &in_features);
 
     registerStream("out_probabilities", &out_probabilities);
 
@@ -173,8 +173,8 @@ void HypothesesEvaluation::onNewImage()
     std::cout << "\n";
     theNet.SetDefaultBNAlgorithm(DSL_ALG_BN_LAURITZEN);
 
-    std::vector<double> ellipse = in_ellipse.read();
-    updateFeatureVector(ellipse);
+    std::vector<double> newFeatures = in_features.read();
+    updateFeatureVector(newFeatures);
 
     calculateProbabilities();
     updateNetwork(newProbabilities);
@@ -182,7 +182,7 @@ void HypothesesEvaluation::onNewImage()
     computeDecision();
 }
 
-void HypothesesEvaluation::updateFeatureVector(const std::vector<double> ellipse)
+void HypothesesEvaluation::updateFeatureVector(const std::vector<double> newFeatures)
 {
     if(features.size() == 0) {
         vector <double> flatness;
@@ -193,8 +193,8 @@ void HypothesesEvaluation::updateFeatureVector(const std::vector<double> ellipse
     //double newDiameter = imagePosition.elements[2];
     //double newFlatness = imagePosition.elements[3];
     //double newArea = imagePosition.elements[2];
-    double newFlatness = ellipse[2];
-    double newArea = ellipse[3];
+    double newFlatness = newFeatures[2];
+    double newArea = newFeatures[3];
 
     //std::cout << "Diameter: " << newDiameter << "\t";
     //std::cout << "Flatness: " << newFlatness << "\t";
