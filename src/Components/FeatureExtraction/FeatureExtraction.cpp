@@ -138,7 +138,7 @@ void FeatureExtraction::onStep()
         // Write blueball list to stream.
         out_balls.write(Blueballs);
 
-        vector<double> ellipse;
+        vector<double> features;
 
         double maxPixels = std::max(cameraInfo.width, cameraInfo.height);
         double diameter=std::max(r2.size.width, r2.size.height)/maxPixels;
@@ -147,11 +147,11 @@ void FeatureExtraction::onStep()
         double convexity = _b/_a;
         double area = M_PI*4*_a*_b;
 
-        ellipse.push_back(_a);
-        ellipse.push_back(_b);
-        ellipse.push_back(convexity);
-        ellipse.push_back(area);
-        out_features.write(ellipse);
+        features.push_back(_a);
+        features.push_back(_b);
+        features.push_back(convexity);
+        features.push_back(area);
+        out_features.write(features);
 
         //std::cout << a/maxPixels << "\t" << b/maxPixels << "\t" << area << std::endl;
 
