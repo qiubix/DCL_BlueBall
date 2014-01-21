@@ -16,11 +16,11 @@
                     <param name="sequence.directory">%[TASK_LOCATION]%/../data/spot/</param>
                     <param name="sequence.pattern">.*\.png</param>
                     <param name="mode.loop">1</param>
-                </Component>	
+                </Component>
                 <Component name="ColorConv" type="CvBasic:CvColorConv" priority="30" bump="0">
                     <param name="type">BGR2HSV</param>
                 </Component>
-                <Component name="LUT" type="BlueBall:MS_Blueball_LUT" priority="40" bump="0">
+                <Component name="LUT" type="BlueBall:LUT" priority="40" bump="0">
                 </Component>
                 <Component name="MorphClose" type="CvBasic:CvMorphology" priority="50" bump="0">
                     <param name="type">MORPH_CLOSE</param>
@@ -33,10 +33,10 @@
                 <Component name="Blob" type="CvBlobs:BlobExtractor" priority="70" bump="0">
                     <param name="min_size">500</param>
                 </Component>
-                <Component name="Decide" type="BlueBall:MS_Blueball_Decide" priority="80" bump="0">
+                <Component name="Features" type="BlueBall:FeatureExtraction" priority="80" bump="0">
                 </Component>
-				<Component name="Update" type="BlueBall:MS_Blueball_Network" priority="7" bump="0">
-                </Component> 
+                <Component name="Evaluation" type="BlueBall:HypothesesEvaluation" priority="7" bump="0">
+                </Component>
             </Executor>
             <Executor name="Visualization" period="0.2">
                 <Component name="Wnd1" type="CvBasic:CvWindow" priority="1" bump="0">
@@ -56,7 +56,7 @@
             <sink>Wnd1.in_img1</sink>
         </Source>-->
         <Source name="CameraInfo.out_camerainfo">
-            <sink>Decide.in_cameraInfo</sink>
+            <sink>Features.in_cameraInfo</sink>
         </Source>
         <Source name="ColorConv.out_img">
             <sink>LUT.in_img</sink>
@@ -66,7 +66,7 @@
             <sink>Wnd1.in_img1</sink>
         </Source>
         <Source name="LUT.out_hue">
-            <sink>Decide.in_hue</sink>
+            <sink>Features.in_hue</sink>
         </Source>
         <Source name="MorphClose.out_img">
             <sink>MorphOpen.in_img</sink>
@@ -76,16 +76,16 @@
             <!-- <sink>Wnd1.in_img1</sink>-->
         </Source>
         <Source name="Blob.out_blobs">
-            <sink>Decide.in_blobs</sink>
+            <sink>Features.in_blobs</sink>
         </Source>
         <Source name="Blob.out_img">
             <sink>Wnd1.in_img2</sink>
         </Source>
-        <Source name="Decide.out_balls">
+        <Source name="Features.out_balls">
             <sink>Wnd1.in_draw0</sink>
         </Source>
-        <Source name="Decide.out_ellipse">
-            <sink>Update.in_ellipse</sink>
+        <Source name="Features.out_features">
+            <sink>Evaluation.in_features</sink>
         </Source>
     </DataStreams>
 </Task>

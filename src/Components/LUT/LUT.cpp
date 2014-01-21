@@ -1,5 +1,5 @@
 /*!
- * \file MS_Blueball_LUT.cpp
+ * \file LUT.cpp
  * \brief
  * \author mstefanc
  * \date 2010-07-05
@@ -8,16 +8,16 @@
 #include <memory>
 #include <string>
 
-#include "MS_Blueball_LUT.hpp"
+#include "LUT.hpp"
 #include "Logger.hpp"
 
 namespace Processors {
-namespace MS_Blueball {
+namespace Blueball {
 
 // OpenCV writes hue in range 0..180 instead of 0..360
 #define H(x) (x>>1)
 
-MS_Blueball_LUT::MS_Blueball_LUT(const std::string & name) : Base::Component(name),
+LUT::LUT(const std::string & name) : Base::Component(name),
     m_hue_threshold_1("hue_thr_1", 180, "range"),
     m_hue_threshold_2("hue_thr_2", 240, "range"),
     m_sat_threshold_1("sat_thr_1", 100, "range"),
@@ -41,20 +41,20 @@ MS_Blueball_LUT::MS_Blueball_LUT(const std::string & name) : Base::Component(nam
     registerProperty(m_sat_threshold_1);
     registerProperty(m_val_threshold_1);
 
-    LOG(LTRACE) << "Hello MS_Blueball_LUT\n";
+    LOG(LTRACE) << "Hello LUT\n";
 }
 
-MS_Blueball_LUT::~MS_Blueball_LUT()
+LUT::~LUT()
 {
-    LOG(LTRACE) << "Good bye MS_Blueball_LUT\n";
+    LOG(LTRACE) << "Good bye LUT\n";
 }
 
-void MS_Blueball_LUT::prepareInterface()
+void LUT::prepareInterface()
 {
 
-    LOG(LTRACE) << "MS_Blueball_LUT::initialize\n";
+    LOG(LTRACE) << "LUT::initialize\n";
 
-    h_onNewImage.setup(this, &MS_Blueball_LUT::onNewImage);
+    h_onNewImage.setup(this, &LUT::onNewImage);
     registerHandler("onNewImage", &h_onNewImage);
 
     registerStream("in_img", &in_img);
@@ -65,37 +65,37 @@ void MS_Blueball_LUT::prepareInterface()
 
 }
 
-bool MS_Blueball_LUT::onInit()
+bool LUT::onInit()
 {
     return true;
 }
 
-bool MS_Blueball_LUT::onFinish()
+bool LUT::onFinish()
 {
-    LOG(LTRACE) << "MS_Blueball_LUT::finish\n";
+    LOG(LTRACE) << "LUT::finish\n";
 
     return true;
 }
 
-bool MS_Blueball_LUT::onStep()
+bool LUT::onStep()
 {
-    LOG(LTRACE) << "MS_Blueball_LUT::step\n";
+    LOG(LTRACE) << "LUT::step\n";
     return true;
 }
 
-bool MS_Blueball_LUT::onStop()
-{
-    return true;
-}
-
-bool MS_Blueball_LUT::onStart()
+bool LUT::onStop()
 {
     return true;
 }
 
-void MS_Blueball_LUT::onNewImage()
+bool LUT::onStart()
 {
-    LOG(LTRACE) << "MS_Blueball_LUT::onNewImage\n";
+    return true;
+}
+
+void LUT::onNewImage()
+{
+    LOG(LTRACE) << "LUT::onNewImage\n";
     try {
         cv::Mat hsv_img = in_img.read();
 
@@ -161,9 +161,9 @@ void MS_Blueball_LUT::onNewImage()
         LOG(LERROR) << ex;
     }
     catch (...) {
-        LOG(LERROR) << "MS_Blueball_LUT::onNewImage failed\n";
+        LOG(LERROR) << "LUT::onNewImage failed\n";
     }
 }
 
-}//: namespace MS_Blueball
+}//: namespace Blueball
 }//: namespace Processors

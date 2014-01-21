@@ -1,12 +1,12 @@
 /*!
- * \file MS_Blueball_LUT.hpp
+ * \file LUT.hpp
  * \brief
  * \author mstefanc
  * \date 2010-07-05
  */
 
-#ifndef MS_Blueball_LUT_HPP_
-#define MS_Blueball_LUT_HPP_
+#ifndef LUT_HPP_
+#define LUT_HPP_
 
 #include "Component_Aux.hpp"
 #include "Component.hpp"
@@ -18,26 +18,26 @@
 #include <highgui.h>
 
 namespace Processors {
-namespace MS_Blueball {
+namespace Blueball {
 
 using namespace cv;
 
 /*!
- * \class MS_Blueball_LUT
+ * \class LUT
  * \brief Example processor class.
  */
-class MS_Blueball_LUT: public Base::Component
+class LUT: public Base::Component
 {
 public:
     /*!
      * Constructor.
      */
-    MS_Blueball_LUT(const std::string & name = "");
+    LUT(const std::string & name = "");
 
     /*!
      * Destructor
      */
-    virtual ~MS_Blueball_LUT();
+    virtual ~LUT();
 
 
     void prepareInterface();
@@ -76,7 +76,7 @@ protected:
     void onNewImage();
 
     /// Event handler.
-    Base::EventHandler <MS_Blueball_LUT> h_onNewImage;
+    Base::EventHandler <LUT> h_onNewImage;
 
     /// Input image
     Base::DataStreamIn <Mat> in_img;
@@ -97,14 +97,14 @@ private:
     Base::Property<int> m_val_threshold_1;
 };
 
-}//: namespace MS_Blueball
+}//: namespace Blueball
 }//: namespace Processors
 
 
 /*
  * Register processor component.
  */
-REGISTER_COMPONENT("MS_Blueball_LUT", Processors::MS_Blueball::MS_Blueball_LUT)
+REGISTER_COMPONENT("LUT", Processors::Blueball::LUT)
 
-#endif /* MS_Blueball_LUT_HPP_ */
+#endif /* LUT_HPP_ */
 

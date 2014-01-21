@@ -1,5 +1,5 @@
 /*!
- * \file MS_Blueball_Decide.cpp
+ * \file FeatureExtraction.cpp
  * \brief
  * \author mstefanc
  * \date 2010-07-05
@@ -9,34 +9,34 @@
 #include <string>
 #include <math.h>
 
-#include "MS_Blueball_Decide.hpp"
+#include "FeatureExtraction.hpp"
 #include "Logger.hpp"
 
 #include "Types/Ellipse.hpp"
 
 namespace Processors {
-namespace MS_Blueball {
+namespace Blueball {
 
 // OpenCV writes hue in range 0..180 instead of 0..360
 #define H(x) (x>>1)
 
-MS_Blueball_Decide::MS_Blueball_Decide(const std::string & name) : Base::Component(name)
+FeatureExtraction::FeatureExtraction(const std::string & name) : Base::Component(name)
 {
-    LOG(LTRACE) << "Hello MS_Blueball_Decide\n";
+    LOG(LTRACE) << "Hello FeatureExtraction\n";
     blobs_ready = hue_ready = false;
 }
 
-MS_Blueball_Decide::~MS_Blueball_Decide()
+FeatureExtraction::~FeatureExtraction()
 {
-    LOG(LTRACE) << "Good bye MS_Blueball_Decide\n";
+    LOG(LTRACE) << "Good bye FeatureExtraction\n";
 }
 
-void MS_Blueball_Decide::prepareInterface()
+void FeatureExtraction::prepareInterface()
 {
 
-    LOG(LTRACE) << "MS_Blueball_Decide::initialize\n";
+    LOG(LTRACE) << "FeatureExtraction::initialize\n";
 
-    h_onStep.setup(this, &MS_Blueball_Decide::onStep);
+    h_onStep.setup(this, &FeatureExtraction::onStep);
     registerHandler("onStep", &h_onStep);
 
     // Register input streams.
@@ -55,25 +55,25 @@ void MS_Blueball_Decide::prepareInterface()
     // Register output streams.
     registerStream("out_balls", &out_balls);
     registerStream("out_imagePosition", &out_imagePosition);
-    registerStream("out_ellipse", &out_ellipse);
+    registerStream("out_features", &out_features);
 
 }
 
-bool MS_Blueball_Decide::onInit()
+bool FeatureExtraction::onInit()
 {
     return true;
 }
 
-bool MS_Blueball_Decide::onFinish()
+bool FeatureExtraction::onFinish()
 {
-    LOG(LTRACE) << "MS_Blueball_Decide::finish\n";
+    LOG(LTRACE) << "FeatureExtraction::finish\n";
 
     return true;
 }
 
-void MS_Blueball_Decide::onStep()
+void FeatureExtraction::onStep()
 {
-    LOG(LTRACE) << "MS_Blueball_Decide::step\n";
+    LOG(LTRACE) << "FeatureExtraction::step\n";
 
     blobs_ready = hue_ready = false;
 
@@ -138,7 +138,7 @@ void MS_Blueball_Decide::onStep()
         // Write blueball list to stream.
         out_balls.write(Blueballs);
 
-        vector<double> ellipse;
+        vector<double> features;
 
         double maxPixels = std::max(cameraInfo.width, cameraInfo.height);
         double diameter=std::max(r2.size.width, r2.size.height)/maxPixels;
@@ -147,11 +147,11 @@ void MS_Blueball_Decide::onStep()
         double convexity = _b/_a;
         double area = M_PI*4*_a*_b;
 
-        ellipse.push_back(_a);
-        ellipse.push_back(_b);
-        ellipse.push_back(convexity);
-        ellipse.push_back(area);
-        out_ellipse.write(ellipse);
+        features.push_back(_a);
+        features.push_back(_b);
+        features.push_back(convexity);
+        features.push_back(area);
+        out_features.write(features);
 
         //std::cout << a/maxPixels << "\t" << b/maxPixels << "\t" << area << std::endl;
 
@@ -177,20 +177,20 @@ void MS_Blueball_Decide::onStep()
         out_imagePosition.write(imagePosition);
 
     } catch (...) {
-        LOG(LERROR) << "MS_Blueball_Decide::onNewImage failed\n";
+        LOG(LERROR) << "FeatureExtraction::onNewImage failed\n";
     }
 }
 
-bool MS_Blueball_Decide::onStop()
+bool FeatureExtraction::onStop()
 {
     return true;
 }
 
-bool MS_Blueball_Decide::onStart()
+bool FeatureExtraction::onStart()
 {
     return true;
 }
 
 
-}//: namespace MS_Blueball
+}//: namespace Blueball
 }//: namespace Processors
